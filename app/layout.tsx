@@ -3,6 +3,7 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import FloatingBar from "@/components/FloatingBar";
+import SiteChrome from "@/components/SiteChrome";
 
 export const metadata: Metadata = {
   title: "WEFLOW | 문의로 이어지는 홈페이지를 만듭니다",
@@ -24,10 +25,13 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-full flex flex-col">
-        <Header />
-        <main className="flex-1">{children}</main>
-        <Footer />
-        <FloatingBar />
+        <SiteChrome
+          header={<Header />}
+          footer={<Footer />}
+          floatingBar={<FloatingBar />}
+        >
+          {children}
+        </SiteChrome>
       </body>
     </html>
   );

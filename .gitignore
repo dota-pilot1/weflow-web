@@ -39,6 +39,9 @@ yarn-error.log*
 # private project docs (planning notes, credentials, etc.)
 docs-for-*/
 
+# reference projects (clone of other repos for inspiration, not part of this codebase)
+refer-project/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
