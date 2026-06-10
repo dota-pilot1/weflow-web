@@ -13,9 +13,11 @@ export default function SiteChrome({
   floatingBar: React.ReactNode;
   children: React.ReactNode;
 }) {
-  const isAdmin = usePathname().startsWith("/admin");
+  const path = usePathname();
+  const isBare =
+    path.startsWith("/admin") || path === "/landing" || path.startsWith("/landing/");
 
-  if (isAdmin) {
+  if (isBare) {
     return <>{children}</>;
   }
 
