@@ -1,4 +1,5 @@
-// 성공사례 28개 업종 (PDF 7페이지 기준)
+// 성공사례 카테고리 정의 + 시각 메타.
+// 실제 28개 업종 콘텐츠는 Supabase `cases` 테이블에서 로드합니다.
 
 export type CaseCategory =
   | "피트니스"
@@ -14,44 +15,6 @@ export type CaseCategory =
   | "자동차"
   | "웨딩"
   | "기업";
-
-export type Case = {
-  slug: string;
-  title: string;        // 표시명 + 폼 industry로 전달되는 값
-  category: CaseCategory;
-  blurb?: string;
-};
-
-export const CASES: Case[] = [
-  { slug: "pt", title: "PT샵", category: "피트니스" },
-  { slug: "pilates", title: "필라테스", category: "피트니스" },
-  { slug: "gym", title: "헬스장", category: "피트니스" },
-  { slug: "insurance", title: "보험설계 사무소", category: "금융" },
-  { slug: "law", title: "법률 사무소", category: "전문직" },
-  { slug: "tax", title: "세무사 사무소", category: "전문직" },
-  { slug: "realestate", title: "공인중개사", category: "부동산" },
-  { slug: "cafe", title: "카페", category: "외식" },
-  { slug: "hair", title: "미용실", category: "뷰티" },
-  { slug: "nail", title: "네일샵", category: "뷰티" },
-  { slug: "skin", title: "피부관리샵", category: "뷰티" },
-  { slug: "wax", title: "왁싱샵", category: "뷰티" },
-  { slug: "tattoo", title: "반영구샵", category: "뷰티" },
-  { slug: "petgroom", title: "애견미용", category: "반려동물" },
-  { slug: "petshop", title: "반려동물 용품점", category: "반려동물" },
-  { slug: "kidscafe", title: "키즈카페", category: "키즈" },
-  { slug: "studycafe", title: "스터디카페", category: "교육" },
-  { slug: "english", title: "영어학원", category: "교육" },
-  { slug: "math", title: "수학학원", category: "교육" },
-  { slug: "exam", title: "입시학원", category: "교육" },
-  { slug: "tutor", title: "개인과외", category: "교육" },
-  { slug: "cleaning", title: "청소업체", category: "생활서비스" },
-  { slug: "interior", title: "인테리어 업체", category: "생활서비스" },
-  { slug: "moving", title: "이사 업체", category: "생활서비스" },
-  { slug: "cardetail", title: "자동차 디테일링", category: "자동차" },
-  { slug: "rentcar", title: "렌터카 업체", category: "자동차" },
-  { slug: "wedding", title: "웨딩 · 스냅 업체", category: "웨딩" },
-  { slug: "smb", title: "소상공인 기업형 홈페이지", category: "기업" },
-];
 
 export const CATEGORY_META: Record<
   CaseCategory,

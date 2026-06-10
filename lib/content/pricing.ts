@@ -188,3 +188,35 @@ export const PRICING_PERKS = [
   "도메인 연결 지원",
   "도메인 등록 대행 가능",
 ];
+
+// ─── 플랜 키 → ContactForm 제작종류 매핑 ─────────────────
+export const planToProjectType = (
+  key: string,
+):
+  | "랜딩페이지 제작"
+  | "홈페이지 제작"
+  | "랜딩&홈페이지 제작"
+  | "기타(WEFLOW 케어플랜)"
+  | null => {
+  switch (key) {
+    case "start":
+      return "랜딩페이지 제작";
+    case "grow":
+      return "홈페이지 제작";
+    case "master":
+      return "랜딩&홈페이지 제작";
+    case "we":
+    case "flow":
+    case "weflow":
+    case "naver":
+    case "danggn":
+      return "기타(WEFLOW 케어플랜)";
+    default:
+      return null;
+  }
+};
+
+// ─── 플랜 키 → 카드에 표시되는 라벨 ────────────────────────
+export const getPlanByKey = (key: string): Plan | null =>
+  [...BUILD_PLANS, ...CARE_PLANS, ...AD_PLANS].find((p) => p.key === key) ??
+  null;

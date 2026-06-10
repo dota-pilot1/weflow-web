@@ -240,7 +240,7 @@ function PlanCard({ plan }: { plan: Plan }) {
 
       {/* CTA */}
       <Link
-        href="/diagnosis"
+        href={`/reservation?plan=${plan.key}`}
         className={[
           "mt-6 inline-flex items-center justify-center rounded-full px-5 py-3 text-sm font-semibold transition",
           isHighlight

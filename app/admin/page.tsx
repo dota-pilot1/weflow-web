@@ -8,21 +8,27 @@ export const metadata = {
 };
 
 export default async function AdminPage() {
-  const [{ data: reservations }, { data: inquiries }] = await Promise.all([
-    supabaseAdmin
-      .from("reservations")
-      .select("*")
-      .order("created_at", { ascending: false }),
-    supabaseAdmin
-      .from("inquiries")
-      .select("*")
-      .order("created_at", { ascending: false }),
-  ]);
+  const [{ data: reservations }, { data: inquiries }, { data: cases }] =
+    await Promise.all([
+      supabaseAdmin
+        .from("reservations")
+        .select("*")
+        .order("created_at", { ascending: false }),
+      supabaseAdmin
+        .from("inquiries")
+        .select("*")
+        .order("created_at", { ascending: false }),
+      supabaseAdmin
+        .from("cases")
+        .select("*")
+        .order("display_order", { ascending: true }),
+    ]);
 
   return (
     <AdminDashboard
       initialReservations={reservations ?? []}
       initialInquiries={inquiries ?? []}
+      initialCases={cases ?? []}
     />
   );
 }

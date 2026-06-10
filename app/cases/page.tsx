@@ -1,16 +1,18 @@
 import Link from "next/link";
 import {
-  CASES,
   CATEGORY_META,
   ALL_CATEGORIES,
   type CaseCategory,
 } from "@/lib/content/cases";
+import { listPublishedCases } from "@/lib/supabase/queries/cases";
 
 export const metadata = {
   title: "성공사례 | WEFLOW",
   description:
     "다양한 업종의 성공 사례를 확인하세요. 어디서도 볼 수 없는 업종별 전환 최적화 사례.",
 };
+
+export const revalidate = 60;
 
 export default async function CasesPage({
   searchParams,
@@ -22,14 +24,15 @@ export default async function CasesPage({
     ALL_CATEGORIES.includes(sp.category as CaseCategory) ? sp.category : null
   ) as CaseCategory | null;
 
+  const allCases = await listPublishedCases();
   const visible = selected
-    ? CASES.filter((c) => c.category === selected)
-    : CASES;
+    ? allCases.filter((c) => c.category === selected)
+    : allCases;
 
   // 카테고리별 카운트 (필터 칩에 표시)
   const counts = ALL_CATEGORIES.reduce(
     (acc, c) => {
-      acc[c] = CASES.filter((x) => x.category === c).length;
+      acc[c] = allCases.filter((x) => x.category === c).length;
       return acc;
     },
     {} as Record<CaseCategory, number>
@@ -56,7 +59,7 @@ export default async function CasesPage({
           <FilterChip
             href="/cases"
             label={`전체`}
-            count={CASES.length}
+            count={allCases.length}
             active={!selected}
           />
           {ALL_CATEGORIES.map((c) => (
@@ -75,8 +78,10 @@ export default async function CasesPage({
           {visible.map((c) => (
             <CaseCard
               key={c.slug}
+              slug={c.slug}
               title={c.title}
-              category={c.category}
+              category={c.category as CaseCategory}
+              summary={c.summary}
             />
           ))}
         </div>
@@ -148,16 +153,20 @@ function FilterChip({
 
 // ─── 케이스 카드 ──────────────────────────────────
 function CaseCard({
+  slug,
   title,
   category,
+  summary,
 }: {
+  slug: string;
   title: string;
   category: CaseCategory;
+  summary: string | null;
 }) {
   const meta = CATEGORY_META[category];
   return (
     <Link
-      href={`/diagnosis?industry=${encodeURIComponent(title)}`}
+      href={`/cases/${slug}`}
       className={[
         "group flex flex-col rounded-2xl bg-white ring-1 ring-[var(--color-border)] overflow-hidden",
         "hover:ring-[var(--color-brand-300)] hover:shadow-md transition",
@@ -189,6 +198,11 @@ function CaseCard({
         <p className="mt-2 font-bold text-sm sm:text-base text-[var(--color-fg)]">
           {title}
         </p>
+        {summary && (
+          <p className="mt-1.5 text-xs text-[var(--color-fg-soft)] line-clamp-2 leading-relaxed">
+            {summary}
+          </p>
+        )}
         <span className="mt-3 text-xs font-semibold text-[var(--color-brand-700)] group-hover:translate-x-0.5 transition-transform inline-flex items-center gap-0.5">
           자세히 보기 →
         </span>

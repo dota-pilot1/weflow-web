@@ -36,7 +36,15 @@ const isSameDay = (a: Date, b: Date) =>
   a.getMonth() === b.getMonth() &&
   a.getDate() === b.getDate();
 
-export default function ReservationForm() {
+export default function ReservationForm({
+  initialProjectType,
+  planLabel,
+}: {
+  /** 외부에서 (예: /pricing에서 클릭) 미리 선택해두는 제작 종류 */
+  initialProjectType?: ProjectType;
+  /** 사전 선택된 플랜 안내 배지에 표시할 라벨 (예: "MASTER 프리미엄") */
+  planLabel?: string;
+} = {}) {
   const today = useMemo(() => {
     const d = new Date();
     d.setHours(0, 0, 0, 0);
@@ -51,7 +59,9 @@ export default function ReservationForm() {
   const [customTime, setCustomTime] = useState<string>("");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
-  const [projectType, setProjectType] = useState<ProjectType | "">("");
+  const [projectType, setProjectType] = useState<ProjectType | "">(
+    initialProjectType ?? ""
+  );
   const [industry, setIndustry] = useState("");
   const [message, setMessage] = useState("");
   const [agree, setAgree] = useState(false);
@@ -156,7 +166,14 @@ export default function ReservationForm() {
 
   // ─── 렌더 ─────────────────────────────────────────
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-[420px_1fr] gap-8">
+    <div className="space-y-5">
+      {planLabel && (
+        <div className="rounded-lg bg-[var(--color-brand-50)] px-4 py-3 text-sm font-semibold text-[var(--color-brand-700)] ring-1 ring-[var(--color-brand-100)]">
+          <span className="mr-1">👑</span>
+          <span className="font-bold">{planLabel}</span>에 대한 상담을 신청 중입니다
+        </div>
+      )}
+      <div className="grid grid-cols-1 lg:grid-cols-[420px_1fr] gap-8">
       {/* LEFT — 캘린더 (sticky on lg+) */}
       <aside className="lg:sticky lg:top-24 lg:self-start">
         <div className="card p-6">
@@ -408,6 +425,7 @@ export default function ReservationForm() {
             </p>
           )}
         </div>
+      </div>
       </div>
     </div>
   );

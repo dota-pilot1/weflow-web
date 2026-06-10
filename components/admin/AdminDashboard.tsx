@@ -3,6 +3,9 @@
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
+import AdminCasesPanel, {
+  type CaseAdminRow,
+} from "@/components/admin/AdminCasesPanel";
 
 type Status = "pending" | "in_progress" | "done";
 
@@ -34,7 +37,7 @@ type Inquiry = {
   created_at: string;
 };
 
-type Tab = "reservations" | "inquiries";
+type Tab = "reservations" | "inquiries" | "cases";
 type StatusFilter = Status | "all";
 
 const STATUS_META: Record<
@@ -78,9 +81,11 @@ const fmtDateTime = (iso: string) => {
 export default function AdminDashboard({
   initialReservations,
   initialInquiries,
+  initialCases,
 }: {
   initialReservations: Reservation[];
   initialInquiries: Inquiry[];
+  initialCases: CaseAdminRow[];
 }) {
   const router = useRouter();
   const [tab, setTab] = useState<Tab>("reservations");
@@ -223,12 +228,19 @@ export default function AdminDashboard({
 
   // ─── 카운트 ───────────────────────────────────────
   const currentList = tab === "reservations" ? reservations : inquiries;
-  const counts = {
-    all: currentList.length,
-    pending: currentList.filter((r) => r.status === "pending").length,
-    in_progress: currentList.filter((r) => r.status === "in_progress").length,
-    done: currentList.filter((r) => r.status === "done").length,
-  } as Record<StatusFilter, number>;
+  const counts =
+    tab === "cases"
+      ? ({ all: 0, pending: 0, in_progress: 0, done: 0 } as Record<
+          StatusFilter,
+          number
+        >)
+      : ({
+          all: currentList.length,
+          pending: currentList.filter((r) => r.status === "pending").length,
+          in_progress: currentList.filter((r) => r.status === "in_progress")
+            .length,
+          done: currentList.filter((r) => r.status === "done").length,
+        } as Record<StatusFilter, number>);
 
   // ─── 렌더 ─────────────────────────────────────────
   return (
@@ -267,6 +279,7 @@ export default function AdminDashboard({
               [
                 { key: "reservations", label: `예약 관리 (${reservations.length})` },
                 { key: "inquiries", label: `문의 관리 (${inquiries.length})` },
+                { key: "cases", label: `케이스 관리 (${initialCases.length})` },
               ] as { key: Tab; label: string }[]
             ).map((t) => (
               <button
@@ -288,52 +301,62 @@ export default function AdminDashboard({
             ))}
           </div>
 
-          <button
-            onClick={() => downloadExcel(tab)}
-            className="rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-700"
-          >
-            ⬇ {tab === "reservations" ? "예약" : "문의"} 엑셀 다운
-          </button>
-        </div>
-
-        {/* FILTERS */}
-        <div className="mt-4 flex flex-wrap gap-2">
-          {FILTERS.map((f) => (
+          {tab !== "cases" && (
             <button
-              key={f.key}
-              onClick={() => setFilter(f.key)}
-              className={[
-                "px-3 py-1.5 text-xs font-semibold rounded-full ring-1 transition",
-                filter === f.key
-                  ? "bg-[var(--color-brand-600)] text-white ring-[var(--color-brand-600)]"
-                  : "bg-white text-[var(--color-fg-soft)] ring-[var(--color-border)] hover:bg-[var(--color-bg-soft)]",
-              ].join(" ")}
+              onClick={() => downloadExcel(tab)}
+              className="rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-700"
             >
-              {f.label} ({counts[f.key]})
+              ⬇ {tab === "reservations" ? "예약" : "문의"} 엑셀 다운
             </button>
-          ))}
-        </div>
-
-        {/* TABLE */}
-        <div className="mt-6 overflow-hidden rounded-xl bg-white ring-1 ring-[var(--color-border)]">
-          {tab === "reservations" ? (
-            <ReservationsTable
-              rows={visibleReservations}
-              expanded={expanded}
-              onToggle={toggleExpand}
-              onStatus={(id, s) => updateStatus("reservations", id, s)}
-              onDelete={(id) => remove("reservations", id)}
-            />
-          ) : (
-            <InquiriesTable
-              rows={visibleInquiries}
-              expanded={expanded}
-              onToggle={toggleExpand}
-              onStatus={(id, s) => updateStatus("inquiries", id, s)}
-              onDelete={(id) => remove("inquiries", id)}
-            />
           )}
         </div>
+
+        {/* FILTERS — cases 탭에서는 상태 개념 없음 */}
+        {tab !== "cases" && (
+          <div className="mt-4 flex flex-wrap gap-2">
+            {FILTERS.map((f) => (
+              <button
+                key={f.key}
+                onClick={() => setFilter(f.key)}
+                className={[
+                  "px-3 py-1.5 text-xs font-semibold rounded-full ring-1 transition",
+                  filter === f.key
+                    ? "bg-[var(--color-brand-600)] text-white ring-[var(--color-brand-600)]"
+                    : "bg-white text-[var(--color-fg-soft)] ring-[var(--color-border)] hover:bg-[var(--color-bg-soft)]",
+                ].join(" ")}
+              >
+                {f.label} ({counts[f.key]})
+              </button>
+            ))}
+          </div>
+        )}
+
+        {/* CONTENT */}
+        {tab === "cases" ? (
+          <div className="mt-6">
+            <AdminCasesPanel initialCases={initialCases} />
+          </div>
+        ) : (
+          <div className="mt-6 overflow-hidden rounded-xl bg-white ring-1 ring-[var(--color-border)]">
+            {tab === "reservations" ? (
+              <ReservationsTable
+                rows={visibleReservations}
+                expanded={expanded}
+                onToggle={toggleExpand}
+                onStatus={(id, s) => updateStatus("reservations", id, s)}
+                onDelete={(id) => remove("reservations", id)}
+              />
+            ) : (
+              <InquiriesTable
+                rows={visibleInquiries}
+                expanded={expanded}
+                onToggle={toggleExpand}
+                onStatus={(id, s) => updateStatus("inquiries", id, s)}
+                onDelete={(id) => remove("inquiries", id)}
+              />
+            )}
+          </div>
+        )}
       </div>
     </div>
   );
