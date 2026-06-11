@@ -1,72 +1,74 @@
 import Link from "next/link";
 import {
   BENEFITS,
-  PROCESS_TIMELINE,
   PROCESS_SIX,
   CASES_PREVIEW,
   REVIEWS,
   DIAGNOSIS_CTA,
 } from "@/lib/content/home";
+import ProcessSixCarousel from "@/components/landing/ProcessSixCarousel";
+import HeroVisual from "@/components/landing/HeroVisual";
 
 export default function HomePage() {
   return (
     <>
       {/* HERO */}
-      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20">
-        <div className="text-center">
-          <span className="chip">홈페이지 · 랜딩 · 광고 · 운영</span>
-          <h1 className="mt-6 text-4xl sm:text-6xl font-extrabold leading-tight tracking-tight">
-            문의로 이어지는
-            <br />
-            <span
-              style={{
-                backgroundImage:
-                  "linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-              }}
-            >
-              홈페이지를 만듭니다
-            </span>
-          </h1>
-          <p className="mt-6 text-base sm:text-lg text-[var(--color-fg-soft)]">
-            홈페이지 제작부터 광고 연동 · 운영 관리까지
-            <br />
-            단순 제작이 아닌 문의 구조까지 설계합니다.
-          </p>
+      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center">
+          <div className="text-center lg:text-left">
+            <span className="chip">홈페이지 · 랜딩 · 광고 · 운영</span>
+            <h1 className="mt-6 text-4xl sm:text-5xl xl:text-6xl font-extrabold leading-tight tracking-tight">
+              문의로 이어지는
+              <br />
+              <span
+                style={{
+                  backgroundImage:
+                    "linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                }}
+              >
+                홈페이지를 만듭니다
+              </span>
+            </h1>
+            <p className="mt-6 text-base sm:text-lg text-[var(--color-fg-soft)]">
+              홈페이지 제작부터 광고 연동 · 운영 관리까지
+              <br />
+              단순 제작이 아닌 문의 구조까지 설계합니다.
+            </p>
 
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
-            <Link href="/diagnosis" className="btn-primary">
-              무료 진단 신청
-            </Link>
-            <Link href="/cases" className="btn-secondary">
-              성공 사례 보기
-            </Link>
-            <Link href="/landing" className="btn-secondary">
-              WEFLOW 랜딩 페이지
-            </Link>
+            <div className="mt-10 flex flex-wrap items-center justify-center lg:justify-start gap-3">
+              <Link href="/diagnosis" className="btn-primary">
+                무료 진단 신청
+              </Link>
+              <Link href="/cases" className="btn-secondary">
+                성공 사례 보기
+              </Link>
+              <Link
+                href="/landing"
+                className="text-sm font-semibold text-[var(--color-fg-mute)] hover:text-[var(--color-brand-700)] transition px-2 py-2"
+              >
+                WEFLOW 랜딩 페이지 →
+              </Link>
+            </div>
+
+            <dl className="mt-12 flex items-start justify-center lg:justify-start divide-x divide-[var(--color-border)]">
+              {[
+                ["케어 플랜", "제작 · 광고 · 운영"],
+                ["빠른 제작", "3일 ~ 7일"],
+                ["합리적 비용", "가성비 + 퀄리티"],
+              ].map(([title, desc]) => (
+                <div key={title} className="px-5 first:pl-0 text-left">
+                  <dt className="text-sm font-bold">{title}</dt>
+                  <dd className="text-xs text-[var(--color-fg-mute)] mt-1">
+                    {desc}
+                  </dd>
+                </div>
+              ))}
+            </dl>
           </div>
 
-          <div className="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-3xl mx-auto">
-            <div className="card px-5 py-4 text-left">
-              <p className="text-sm font-bold">케어 플랜</p>
-              <p className="text-xs text-[var(--color-fg-mute)] mt-1">
-                제작 · 광고 · 운영
-              </p>
-            </div>
-            <div className="card px-5 py-4 text-left">
-              <p className="text-sm font-bold">빠른 제작</p>
-              <p className="text-xs text-[var(--color-fg-mute)] mt-1">
-                3일 ~ 7일
-              </p>
-            </div>
-            <div className="card px-5 py-4 text-left">
-              <p className="text-sm font-bold">합리적 비용</p>
-              <p className="text-xs text-[var(--color-fg-mute)] mt-1">
-                가성비 + 퀄리티
-              </p>
-            </div>
-          </div>
+          <HeroVisual />
         </div>
       </section>
 
@@ -80,11 +82,11 @@ export default function HomePage() {
             <p className="mt-3 text-[var(--color-fg-soft)]">{BENEFITS.sub}</p>
           </div>
 
-          <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="mt-12 flex overflow-x-auto snap-x snap-mandatory gap-4 -mx-4 px-4 scroll-pl-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:grid sm:grid-cols-2 lg:grid-cols-3 sm:overflow-visible sm:mx-0 sm:px-0">
             {BENEFITS.cards.map((c) => (
               <div
                 key={c.title}
-                className="card p-6 hover:shadow-md transition-shadow"
+                className="card p-6 hover:shadow-md transition-shadow min-w-[280px] snap-start sm:min-w-0"
               >
                 <div className="text-3xl">{c.icon}</div>
                 <h3 className="mt-4 font-bold text-lg">{c.title}</h3>
@@ -154,77 +156,12 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* PROCESS — 4단계 + 6단계 양옆 나란히 */}
-      <section className="bg-[var(--color-bg-soft)]">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* 4단계 */}
-            <div className="card p-8">
-              <div>
-                <span className="chip">PROCESS</span>
-                <h3 className="mt-3 text-2xl font-extrabold">
-                  {PROCESS_TIMELINE.title}
-                </h3>
-                <p className="mt-2 text-sm text-[var(--color-fg-soft)]">
-                  {PROCESS_TIMELINE.sub}
-                </p>
-              </div>
-              <ol className="mt-8 space-y-4">
-                {PROCESS_TIMELINE.steps.map((s, i) => (
-                  <li
-                    key={s.label}
-                    className="flex items-start gap-4 rounded-xl bg-[var(--color-bg-soft)] p-4"
-                  >
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[var(--color-brand-50)] text-xl">
-                      {s.icon}
-                    </div>
-                    <div className="flex-1">
-                      <p className="text-xs font-semibold text-[var(--color-brand-600)]">
-                        STEP {String(i + 1).padStart(2, "0")}
-                      </p>
-                      <p className="font-bold mt-0.5">{s.label}</p>
-                      <p className="text-xs text-[var(--color-fg-mute)] mt-0.5">
-                        {s.desc}
-                      </p>
-                    </div>
-                  </li>
-                ))}
-              </ol>
-            </div>
-
-            {/* 6단계 */}
-            <div className="card p-8">
-              <div>
-                <span className="chip">DETAILED FLOW</span>
-                <h3 className="mt-3 text-2xl font-extrabold">
-                  {PROCESS_SIX.title}
-                </h3>
-                <p className="mt-2 text-sm text-[var(--color-fg-soft)]">
-                  {PROCESS_SIX.sub}
-                </p>
-              </div>
-              <ol className="mt-8 space-y-3">
-                {PROCESS_SIX.steps.map((s) => (
-                  <li
-                    key={s.no}
-                    className="flex items-center gap-4 rounded-xl border border-[var(--color-border)] px-4 py-3"
-                  >
-                    <span className="text-xl font-extrabold text-[var(--color-brand-600)] w-10">
-                      {s.no}
-                    </span>
-                    <div className="flex-1">
-                      <p className="font-bold text-sm">{s.label}</p>
-                      <p className="text-xs text-[var(--color-fg-mute)] mt-0.5">
-                        {s.desc}
-                      </p>
-                    </div>
-                  </li>
-                ))}
-              </ol>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* PROCESS — 6단계 자동 캐러셀 */}
+      <ProcessSixCarousel
+        title={PROCESS_SIX.title}
+        sub={PROCESS_SIX.sub}
+        steps={PROCESS_SIX.steps}
+      />
 
       {/* REVIEWS — 25개 양방향 마퀴 */}
       <section className="py-20 overflow-hidden">
@@ -248,7 +185,15 @@ export default function HomePage() {
           </div>
         </div>
 
-        <div className="mt-10 space-y-4">
+        {/* 모바일: 손으로 넘기는 스냅 스와이프 */}
+        <div className="sm:hidden mt-10 flex overflow-x-auto snap-x snap-mandatory gap-3 px-4 scroll-pl-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          {REVIEWS.map((r) => (
+            <ReviewCard key={r.text} review={r} className="w-[280px] shrink-0 snap-start" />
+          ))}
+        </div>
+
+        {/* 데스크톱: 양방향 자동 마퀴 */}
+        <div className="hidden sm:block mt-10 space-y-4">
           <Marquee items={REVIEWS.slice(0, 13)} direction="left" />
           <Marquee items={REVIEWS.slice(13)} direction="right" />
         </div>
@@ -286,6 +231,24 @@ export default function HomePage() {
   );
 }
 
+function ReviewCard({
+  review,
+  className,
+}: {
+  review: { text: string; by: string };
+  className?: string;
+}) {
+  return (
+    <div className={`card p-5 ${className ?? ""}`}>
+      <div className="text-[var(--color-accent-500)] text-sm">★★★★★</div>
+      <p className="mt-2 text-sm text-[var(--color-fg)] leading-relaxed">
+        {review.text}
+      </p>
+      <p className="mt-3 text-xs text-[var(--color-fg-mute)]">— {review.by}</p>
+    </div>
+  );
+}
+
 // 가로로 자동 흐르는 후기 마퀴 — CSS 애니메이션만 사용
 function Marquee({
   items,
@@ -306,16 +269,7 @@ function Marquee({
         }}
       >
         {doubled.map((r, i) => (
-          <div
-            key={i}
-            className="card shrink-0 w-[300px] sm:w-[360px] p-5"
-          >
-            <div className="text-[var(--color-accent-500)] text-sm">★★★★★</div>
-            <p className="mt-2 text-sm text-[var(--color-fg)] leading-relaxed">
-              {r.text}
-            </p>
-            <p className="mt-3 text-xs text-[var(--color-fg-mute)]">— {r.by}</p>
-          </div>
+          <ReviewCard key={i} review={r} className="shrink-0 w-[300px] sm:w-[360px]" />
         ))}
       </div>
       <style>{`

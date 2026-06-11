@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import {
   COMPANY,
@@ -26,13 +27,12 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
           <div className="md:col-span-1">
             <div className="flex items-center gap-2">
-              <span
-                className="inline-block w-8 h-8 rounded-lg"
-                style={{
-                  backgroundImage:
-                    "linear-gradient(135deg, #60a5fa 0%, #2563eb 50%, #1d4ed8 100%)",
-                }}
-                aria-hidden
+              <Image
+                src="/logo.png"
+                alt="WEFLOW"
+                width={36}
+                height={36}
+                className="w-9 h-9"
               />
               <span className="text-xl font-extrabold tracking-tight">
                 {COMPANY.name}

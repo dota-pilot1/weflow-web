@@ -25,7 +25,6 @@ export const NAV = [
   { href: "/pricing", label: "제작플랜&가격안내" },
   { href: "/cases", label: "성공사례" },
   { href: "/reservation", label: "예약" },
-  { href: "/diagnosis", label: "무료진단받기" },
 ];
 
 export const FOOTER_SERVICE = [

@@ -14,17 +14,6 @@ export const BENEFITS = {
   flow: ["고객 의뢰", "접수 후 제작", "3~7일 배송 완료", "광고 및 운영 사후 관리"],
 };
 
-export const PROCESS_TIMELINE = {
-  title: "제작 진행 과정",
-  sub: "고객 의뢰부터 사후 관리까지 한눈에",
-  steps: [
-    { icon: "💬", label: "고객 상담", desc: "업종 분석 + 방향 확인" },
-    { icon: "📝", label: "협의 후 제작", desc: "요구사항 정리 + 견적" },
-    { icon: "✅", label: "3~7일 완료", desc: "빠른 제작 + 검수" },
-    { icon: "📊", label: "광고 · 운영 관리", desc: "사후 관리 서비스" },
-  ],
-};
-
 export const PROCESS_SIX = {
   title: "6단계 제작 프로세스",
   sub: "체계적인 단계로 완성도를 보장합니다",

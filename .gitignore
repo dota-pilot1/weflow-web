@@ -45,3 +45,6 @@ refer-project/
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local tool config
+.codex/
