@@ -1,6 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
+import FloatingContact from "@/components/FloatingContact";
 
 export default function SiteChrome({
   header,
@@ -31,6 +32,7 @@ export default function SiteChrome({
       </div>
       {footer}
       {floatingBar}
+      <FloatingContact />
     </>
   );
 }
