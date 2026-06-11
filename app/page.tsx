@@ -1,12 +1,12 @@
 import Link from "next/link";
 import {
   BENEFITS,
+  PROCESS_FLOW,
   PROCESS_SIX,
   CASES_PREVIEW,
   REVIEWS,
   DIAGNOSIS_CTA,
 } from "@/lib/content/home";
-import ProcessSixCarousel from "@/components/landing/ProcessSixCarousel";
 import HeroVisual from "@/components/landing/HeroVisual";
 import LineIcon from "@/components/LineIcon";
 
@@ -22,8 +22,9 @@ export default function HomePage() {
         <div className="mx-auto max-w-[88rem] px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-[0.92fr_1.08fr] gap-14 lg:gap-8 items-center">
             <div className="text-center lg:text-left lg:pt-10">
-              <span className="chip bg-white ring-1 ring-[var(--color-brand-100)] shadow-sm">
-                홈페이지 · 랜딩 · 문의관리 · 운영
+              <span className="chip bg-white ring-1 ring-[var(--color-brand-100)] shadow-sm max-w-md whitespace-normal break-keep leading-relaxed">
+                랜딩&홈페이지 제작 · 광고 운영 · 검색 상단 노출 · 맞춤형 웹
+                솔루션
               </span>
               <h1 className="mt-6 text-4xl sm:text-6xl xl:text-7xl font-extrabold leading-[1.04] tracking-tight">
                 문의로 이어지는
@@ -40,9 +41,9 @@ export default function HomePage() {
                 </span>
               </h1>
               <p className="mt-7 text-base sm:text-xl text-[var(--color-fg-soft)] leading-relaxed">
-                홈페이지 제작부터 광고 연동 · 문의 관리까지
+                홈페이지 제작부터 광고 연동 · 운영 관리까지
                 <br />
-                고객이 남기는 순간까지 설계합니다.
+                단순 제작이 아닌 문의 구조까지 설계합니다.
               </p>
 
               <div className="mt-10 flex flex-wrap items-center justify-center lg:justify-start gap-3.5">
@@ -62,9 +63,9 @@ export default function HomePage() {
 
               <dl className="mt-12 flex items-start justify-center lg:justify-start divide-x divide-[var(--color-border)]">
                 {[
-                  ["문의 설계", "랜딩 · 폼 · 예약"],
+                  ["케어 플랜", "제작 · 광고 · 운영"],
                   ["빠른 제작", "3일 ~ 7일"],
-                  ["운영 지원", "광고 · 수정 · 관리"],
+                  ["합리적 비용", "가성비 + 퀄리티"],
                 ].map(([title, desc]) => (
                   <div key={title} className="px-5 first:pl-0 text-left">
                     <dt className="text-sm font-bold">{title}</dt>
@@ -138,15 +139,24 @@ export default function HomePage() {
               {CASES_PREVIEW.sub}
             </p>
             <Link
-              href="/cases"
+              href="/diagnosis"
               className="btn-primary mt-8 inline-flex"
             >
               {CASES_PREVIEW.more}
             </Link>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-            {CASES_PREVIEW.items.map((item) => (
+          <div>
+            <div className="flex justify-end">
+              <Link
+                href="/cases"
+                className="text-sm font-semibold text-[var(--color-brand-700)] hover:underline"
+              >
+                더보기 →
+              </Link>
+            </div>
+            <div className="mt-3 grid grid-cols-2 sm:grid-cols-3 gap-3">
+              {CASES_PREVIEW.items.slice(0, 5).map((item) => (
               <Link
                 key={item.title}
                 href="/cases"
@@ -162,17 +172,83 @@ export default function HomePage() {
                   <p className="mt-0.5 text-sm font-bold">{item.title}</p>
                 </div>
               </Link>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* PROCESS — 6단계 자동 캐러셀 */}
-      <ProcessSixCarousel
-        title={PROCESS_SIX.title}
-        sub={PROCESS_SIX.sub}
-        steps={PROCESS_SIX.steps}
-      />
+      {/* PROCESS — 제작 진행 과정(4칸) + 6단계 프로세스(6칸) 세로 박스 양옆 배치 */}
+      <section className="section-soft">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-24 sm:py-28">
+          <div className="text-center">
+            <span className="chip bg-white border border-[var(--color-brand-100)] shadow-sm">
+              Process
+            </span>
+            <h2 className="mt-4 text-2xl sm:text-4xl font-extrabold tracking-tight">
+              {PROCESS_SIX.title}
+            </h2>
+            <p className="mt-3 text-[var(--color-fg-soft)]">{PROCESS_SIX.sub}</p>
+          </div>
+
+          <div className="mt-12 grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch max-w-5xl mx-auto">
+            {/* 좌: 제작 진행 과정 — 세로 4칸 */}
+            <div className="card p-6 sm:p-8 flex flex-col">
+              <h3 className="text-lg sm:text-xl font-extrabold tracking-tight">
+                제작 진행 과정
+              </h3>
+              <ol className="mt-5 flex-1 flex flex-col gap-3">
+                {PROCESS_FLOW.map((s) => (
+                  <li
+                    key={s.no}
+                    className="flex-1 flex items-center gap-4 rounded-xl bg-[var(--color-bg-soft)] px-5 py-4"
+                  >
+                    <span className="text-xs font-extrabold text-[var(--color-brand-600)] tracking-wider">
+                      {s.no}
+                    </span>
+                    <span className="font-bold text-sm sm:text-base">
+                      {s.label}
+                    </span>
+                  </li>
+                ))}
+              </ol>
+            </div>
+
+            {/* 우: 6단계 제작 프로세스 — 세로 6칸 */}
+            <div className="card p-6 sm:p-8 flex flex-col">
+              <h3 className="text-lg sm:text-xl font-extrabold tracking-tight">
+                6단계 제작 프로세스
+              </h3>
+              <ol className="mt-5 flex-1 flex flex-col gap-3">
+                {PROCESS_SIX.steps.map((s) => (
+                  <li
+                    key={s.no}
+                    className="flex-1 flex items-center gap-4 rounded-xl bg-[var(--color-bg-soft)] px-5 py-3"
+                  >
+                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white ring-1 ring-[var(--color-brand-100)]">
+                      <LineIcon
+                        name={s.icon}
+                        className="h-4 w-4 text-[var(--color-brand-600)]"
+                      />
+                    </span>
+                    <div>
+                      <p className="text-[10px] font-bold text-[var(--color-brand-600)] tracking-wider">
+                        STEP {s.no}
+                      </p>
+                      <p className="font-bold text-sm sm:text-base">
+                        {s.label}
+                        <span className="ml-2 font-normal text-xs text-[var(--color-fg-mute)]">
+                          {s.desc}
+                        </span>
+                      </p>
+                    </div>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* REVIEWS — 25개 양방향 마퀴 */}
       <section className="py-24 sm:py-28 overflow-hidden bg-[var(--color-bg)]">

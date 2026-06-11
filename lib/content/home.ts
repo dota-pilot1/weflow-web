@@ -14,6 +14,14 @@ export const BENEFITS = {
   flow: ["고객 의뢰", "접수 후 제작", "3~7일 배송 완료", "광고 및 운영 사후 관리"],
 };
 
+// 제작 진행 과정 (메뉴얼: 세로 긴 박스 4칸)
+export const PROCESS_FLOW = [
+  { no: "01", label: "고객 상담" },
+  { no: "02", label: "협의 후 제작" },
+  { no: "03", label: "3~7일 완료" },
+  { no: "04", label: "광고 및 운영 사후 관리" },
+];
+
 export const PROCESS_SIX = {
   title: "6단계 제작 프로세스",
   sub: "체계적인 단계로 완성도를 보장합니다",

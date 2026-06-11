@@ -202,7 +202,7 @@ export default function AdminDashboard({
 
   const refresh = () => router.refresh();
 
-  const downloadExcel = (kind: Tab) => {
+  const downloadExcel = (kind: Tab | "all") => {
     window.location.href = `/api/admin/export?type=${kind}`;
   };
 
@@ -301,14 +301,22 @@ export default function AdminDashboard({
             ))}
           </div>
 
-          {tab !== "cases" && (
+          <div className="flex gap-2">
+            {tab !== "cases" && (
+              <button
+                onClick={() => downloadExcel(tab)}
+                className="rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-700"
+              >
+                ⬇ {tab === "reservations" ? "예약" : "문의"} 엑셀 다운
+              </button>
+            )}
             <button
-              onClick={() => downloadExcel(tab)}
-              className="rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-700"
+              onClick={() => downloadExcel("all")}
+              className="rounded-lg bg-emerald-700 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-800"
             >
-              ⬇ {tab === "reservations" ? "예약" : "문의"} 엑셀 다운
+              ⬇ 전체 엑셀 다운
             </button>
-          )}
+          </div>
         </div>
 
         {/* FILTERS — cases 탭에서는 상태 개념 없음 */}
