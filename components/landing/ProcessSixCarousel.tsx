@@ -46,8 +46,8 @@ export default function ProcessSixCarousel({
   };
 
   return (
-    <section className="bg-[var(--color-bg-soft)]">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20">
+    <section className="section-soft">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-24 sm:py-28">
         <div className="text-center">
           <span className="chip">DETAILED FLOW</span>
           <h2 className="mt-3 text-2xl sm:text-4xl font-extrabold tracking-tight">

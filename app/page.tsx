@@ -13,7 +13,7 @@ export default function HomePage() {
   return (
     <>
       {/* HERO */}
-      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
+      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-16 lg:pt-24 pb-20 lg:pb-32">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center">
           <div className="text-center lg:text-left">
             <span className="chip">홈페이지 · 랜딩 · 광고 · 운영</span>
@@ -73,8 +73,8 @@ export default function HomePage() {
       </section>
 
       {/* BENEFITS - 케어 플랜 6칸 */}
-      <section className="bg-[var(--color-bg-soft)]">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20">
+      <section className="section-soft">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-24 sm:py-28">
           <div className="text-center">
             <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight">
               {BENEFITS.title}
@@ -117,7 +117,7 @@ export default function HomePage() {
       </section>
 
       {/* CASES PREVIEW */}
-      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20">
+      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-24 sm:py-28">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-8 items-start">
           <div className="card p-8">
             <h2 className="text-2xl sm:text-3xl font-extrabold leading-tight">
@@ -164,7 +164,7 @@ export default function HomePage() {
       />
 
       {/* REVIEWS — 25개 양방향 마퀴 */}
-      <section className="py-20 overflow-hidden">
+      <section className="py-24 sm:py-28 overflow-hidden">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3">
             <div>

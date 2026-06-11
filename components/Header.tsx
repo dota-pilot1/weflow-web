@@ -3,12 +3,55 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { NAV } from "@/lib/site";
 
 export default function Header() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+
+  const navRef = useRef<HTMLDivElement>(null);
+  const [activeStyle, setActiveStyle] = useState({
+    left: 0,
+    width: 0,
+    height: 0,
+    top: 0,
+    opacity: 0,
+  });
+  const [isFirstLayout, setIsFirstLayout] = useState(true);
+
+  useEffect(() => {
+    const updateLayout = () => {
+      if (!navRef.current) return;
+      const activeEl = navRef.current.querySelector(
+        ".active-nav-item"
+      ) as HTMLElement;
+      if (activeEl) {
+        setActiveStyle({
+          left: activeEl.offsetLeft,
+          width: activeEl.offsetWidth,
+          height: activeEl.offsetHeight,
+          top: activeEl.offsetTop,
+          opacity: 1,
+        });
+        if (isFirstLayout) {
+          // Disable transition for first mount layout, then enable it
+          setIsFirstLayout(false);
+        }
+      } else {
+        setActiveStyle((prev) => ({ ...prev, opacity: 0 }));
+      }
+    };
+
+    // Delay slightly to ensure fonts or styles are loaded
+    const timer = setTimeout(updateLayout, 30);
+
+    window.addEventListener("resize", updateLayout);
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener("resize", updateLayout);
+    };
+  }, [pathname, isFirstLayout]);
 
   return (
     <>
@@ -28,7 +71,21 @@ export default function Header() {
           </span>
         </Link>
 
-        <nav className="hidden md:flex items-center gap-2">
+        <nav ref={navRef} className="relative hidden md:flex items-center gap-2 py-2">
+          {/* Sliding Indicator */}
+          <div
+            className={`absolute bg-white/15 rounded-full pointer-events-none ${
+              isFirstLayout ? "" : "transition-all duration-300 ease-out"
+            }`}
+            style={{
+              left: activeStyle.left,
+              width: activeStyle.width,
+              height: activeStyle.height,
+              top: activeStyle.top,
+              opacity: activeStyle.opacity,
+            }}
+          />
+
           {NAV.map((item) => {
             const active =
               item.href === "/"
@@ -38,9 +95,9 @@ export default function Header() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition ${
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors duration-300 relative z-10 ${
                   active
-                    ? "text-white bg-white/15"
+                    ? "active-nav-item text-white"
                     : "text-white/65 hover:text-white hover:bg-white/10"
                 }`}
               >
