@@ -19,6 +19,7 @@ export async function generateMetadata({
   return {
     title: `${c.title} 성공 사례 | WEFLOW`,
     description: c.summary ?? `${c.title} 업종의 전환 최적화 사례`,
+    alternates: { canonical: `/cases/${slug}` },
   };
 }
 

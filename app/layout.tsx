@@ -4,9 +4,8 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import FloatingBar from "@/components/FloatingBar";
 import SiteChrome from "@/components/SiteChrome";
+import { SITE_URL, COMPANY, LINKS } from "@/lib/site";
 
-const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://weflow-web-phi.vercel.app";
 const SITE_TITLE = "WEFLOW | 문의로 이어지는 홈페이지를 만듭니다";
 const SITE_DESCRIPTION =
   "홈페이지 제작부터 광고 연동·운영 관리까지. 단순 제작이 아닌 문의 구조까지 설계하는 마케팅 에이전시 WEFLOW.";
@@ -42,6 +41,22 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
+// 구글·네이버 비즈니스 정보용 구조화 데이터
+const JSON_LD = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  name: COMPANY.name,
+  description: SITE_DESCRIPTION,
+  url: SITE_URL,
+  logo: `${SITE_URL}/logo.png`,
+  email: COMPANY.email,
+  telephone: "+82-10-2971-7280",
+  openingHours: "Mo-Su 00:00-24:00",
+  areaServed: "KR",
+  founder: { "@type": "Person", name: COMPANY.ceo },
+  sameAs: [LINKS.blog, LINKS.instagram, LINKS.facebook, LINKS.kakao],
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -61,6 +76,10 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-full flex flex-col">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }}
+        />
         <SiteChrome
           header={<Header />}
           footer={<Footer />}

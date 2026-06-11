@@ -5,6 +5,7 @@ export const metadata = {
   title: "예약 | WEFLOW",
   description:
     "원하시는 날짜와 시간을 선택해 무료 상담을 예약하세요. 평균 24시간 내 연락드립니다.",
+  alternates: { canonical: "/reservation" },
 };
 
 export default async function ReservationPage({

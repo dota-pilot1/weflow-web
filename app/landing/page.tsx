@@ -15,6 +15,8 @@ export const metadata = {
   title: "WEFLOW — 무료 진단 신청",
   description:
     "랜딩페이지부터 홈페이지, 광고 운영까지 한 번에. 지금 무료 진단 신청하세요.",
+  // 광고 유입용 페이지 — 홈과 콘텐츠가 겹치므로 색인 제외
+  robots: { index: false, follow: true },
 };
 
 const won = (n: number) => new Intl.NumberFormat("ko-KR").format(n);

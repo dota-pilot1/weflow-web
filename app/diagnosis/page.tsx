@@ -5,6 +5,7 @@ export const metadata = {
   title: "무료진단 | WEFLOW",
   description:
     "지금 바로 무료 진단받고, 사이트의 숨겨진 잠재력을 발견하세요. 평균 24시간 내 견적 회신.",
+  alternates: { canonical: "/diagnosis" },
 };
 
 const DIAGNOSIS_ITEMS = [

@@ -10,6 +10,10 @@ import ProcessSixCarousel from "@/components/landing/ProcessSixCarousel";
 import HeroVisual from "@/components/landing/HeroVisual";
 import LineIcon from "@/components/LineIcon";
 
+export const metadata = {
+  alternates: { canonical: "/" },
+};
+
 export default function HomePage() {
   return (
     <>

@@ -1,3 +1,6 @@
+export const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://weflow-web-phi.vercel.app";
+
 export const COMPANY = {
   name: "WEFLOW",
   tagline: "제작부터 관리까지 비즈니스 성장을 함께합니다.",

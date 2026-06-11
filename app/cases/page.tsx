@@ -10,6 +10,7 @@ export const metadata = {
   title: "성공사례 | WEFLOW",
   description:
     "다양한 업종의 성공 사례를 확인하세요. 어디서도 볼 수 없는 업종별 전환 최적화 사례.",
+  alternates: { canonical: "/cases" },
 };
 
 export const revalidate = 60;

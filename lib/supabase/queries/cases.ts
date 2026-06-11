@@ -33,6 +33,18 @@ export async function listPublishedCases(): Promise<CaseListItem[]> {
   return (data ?? []) as CaseListItem[];
 }
 
+// 사이트맵용 — 공개된 사례의 slug와 수정 시각만
+export async function listCaseSlugs(): Promise<
+  Pick<CaseRow, "slug" | "updated_at">[]
+> {
+  const { data, error } = await supabase
+    .from("cases")
+    .select("slug, updated_at")
+    .eq("published", true);
+  if (error) throw error;
+  return (data ?? []) as Pick<CaseRow, "slug" | "updated_at">[];
+}
+
 export async function getCaseBySlug(slug: string): Promise<CaseRow | null> {
   const { data, error } = await supabase
     .from("cases")

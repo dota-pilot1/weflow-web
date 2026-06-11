@@ -10,6 +10,7 @@ export const metadata = {
   title: "서비스 | WEFLOW",
   description:
     "상담부터 사후관리까지 — WEFLOW의 6단계 제작 프로세스와 광고 운영 시스템.",
+  alternates: { canonical: "/service" },
 };
 
 const TAG_STYLE: Record<AdSystem["tag"], string> = {

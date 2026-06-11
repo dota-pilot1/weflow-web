@@ -13,6 +13,7 @@ export const metadata = {
   title: "제작플랜 & 가격안내 | WEFLOW",
   description:
     "랜딩페이지부터 홈페이지, 케어 플랜, 광고 운영까지. 합리적인 가격으로 시작하세요.",
+  alternates: { canonical: "/pricing" },
 };
 
 const won = (n: number) => new Intl.NumberFormat("ko-KR").format(n);
