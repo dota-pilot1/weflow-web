@@ -5,10 +5,41 @@ import Footer from "@/components/Footer";
 import FloatingBar from "@/components/FloatingBar";
 import SiteChrome from "@/components/SiteChrome";
 
+const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://weflow-web-phi.vercel.app";
+const SITE_TITLE = "WEFLOW | 문의로 이어지는 홈페이지를 만듭니다";
+const SITE_DESCRIPTION =
+  "홈페이지 제작부터 광고 연동·운영 관리까지. 단순 제작이 아닌 문의 구조까지 설계하는 마케팅 에이전시 WEFLOW.";
+
 export const metadata: Metadata = {
-  title: "WEFLOW | 문의로 이어지는 홈페이지를 만듭니다",
-  description:
-    "홈페이지 제작부터 광고 연동·운영 관리까지. 단순 제작이 아닌 문의 구조까지 설계하는 마케팅 에이전시 WEFLOW.",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: SITE_TITLE,
+    template: "%s | WEFLOW",
+  },
+  description: SITE_DESCRIPTION,
+  keywords: [
+    "WEFLOW",
+    "홈페이지 제작",
+    "랜딩페이지",
+    "마케팅 에이전시",
+    "광고 운영",
+    "문의 전환",
+  ],
+  openGraph: {
+    type: "website",
+    locale: "ko_KR",
+    url: SITE_URL,
+    siteName: "WEFLOW",
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+  },
+  robots: { index: true, follow: true },
 };
 
 export default function RootLayout({
