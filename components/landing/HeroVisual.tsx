@@ -1,15 +1,17 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { DEMOS } from "@/lib/content/demos";
 
-// 히어로 우측 비주얼 — WEFLOW가 만든 실제 데모 사이트 스크린샷이
-// 브라우저 프레임 안에서 12초 주기로 순환한다. 클릭하면 데모를 새 탭으로 연다.
+// 히어로 우측 비주얼 — WEFLOW가 만든 실제 데모 사이트 스크린샷 카루셀.
+// 주소창·스크린샷·문의 토스트가 하나의 인덱스 상태로 묶여 항상 동기화된다.
+// 4초 자동 순환 + 좌우 버튼/점 인디케이터로 수동 이동(타이머 리셋).
 const SCENE_SLUGS = ["pilates", "law", "car"] as const;
-const SCENES = SCENE_SLUGS.map(
-  (slug) => DEMOS.find((d) => d.slug === slug)!
-);
+const SCENES = SCENE_SLUGS.map((slug) => DEMOS.find((d) => d.slug === slug)!);
 
-// 업종과 짝을 맞춘 문의 알림 (같은 12초 주기, 4초 간격)
+// 업종과 짝을 맞춘 문의 알림
 const TOASTS = [
   { icon: "📅", title: "체험 수업 예약 접수", desc: "내일 오후 3시 · 필라테스 체험" },
   { icon: "⚖️", title: "상담 신청이 도착했습니다", desc: "“계약서 검토 문의드립니다”" },
@@ -25,29 +27,50 @@ const STEPS = [
   { no: "04", label: "수정·관리" },
 ];
 
+const AUTO_MS = 4000;
+
 export default function HeroVisual() {
+  const [idx, setIdx] = useState(0);
+  const [paused, setPaused] = useState(false);
+
+  // idx가 deps에 있어 수동 이동 시 4초 타이머가 새로 시작된다.
+  useEffect(() => {
+    if (paused) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const t = setInterval(
+      () => setIdx((i) => (i + 1) % SCENES.length),
+      AUTO_MS
+    );
+    return () => clearInterval(t);
+  }, [paused, idx]);
+
+  const prev = () => setIdx((i) => (i - 1 + SCENES.length) % SCENES.length);
+  const next = () => setIdx((i) => (i + 1) % SCENES.length);
+
   return (
-    <div className="hv-root">
+    <div
+      className="hv-root"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+    >
       <div className="hv-glow" aria-hidden />
 
-      {/* 데모 사이트 브라우저 목업 — 실제 스크린샷 순환 */}
+      {/* 데모 사이트 브라우저 목업 */}
       <div className="card hv-browser">
-        <div className="hv-bar-top" aria-hidden>
+        <div className="hv-bar-top">
           <span className="hv-dot" style={{ background: "#fca5a5" }} />
           <span className="hv-dot" style={{ background: "#fcd34d" }} />
           <span className="hv-dot" style={{ background: "#86efac" }} />
-          <span className="hv-url">
+          <span className="hv-url" aria-hidden>
             {SCENES.map((s, i) => (
               <span
                 key={s.slug}
-                className="hv-cycle hv-url-text"
-                style={{ animationDelay: `${i * 4}s` }}
+                className={`hv-fade hv-url-text ${i === idx ? "is-active" : ""}`}
               >
                 {s.domain}
               </span>
             ))}
           </span>
-          <span className="hv-made">made by WEFLOW</span>
         </div>
 
         <div className="hv-shots">
@@ -56,8 +79,8 @@ export default function HeroVisual() {
               key={s.slug}
               href={`/demo/${s.slug}`}
               target="_blank"
-              className="hv-shot hv-cycle"
-              style={{ animationDelay: `${i * 4}s` }}
+              className={`hv-fade hv-shot ${i === idx ? "is-active" : ""}`}
+              tabIndex={i === idx ? 0 : -1}
               aria-label={`${s.brand} 제작 샘플 새 탭에서 보기`}
             >
               <Image
@@ -70,10 +93,41 @@ export default function HeroVisual() {
               />
             </Link>
           ))}
+
+          <span className="hv-made">made by WEFLOW</span>
           <span className="hv-open" aria-hidden>
             실제 사이트 보기 ↗
           </span>
         </div>
+      </div>
+
+      {/* 카루셀 컨트롤 — 브라우저 좌상단 바깥, 지표 카드와 대칭인 플로팅 필 */}
+      <div className="card hv-ctrl">
+        <button
+          type="button"
+          onClick={prev}
+          aria-label="이전 제작 샘플"
+          className="hv-ctrl-btn"
+        >
+          ‹
+        </button>
+        {SCENES.map((s, i) => (
+          <button
+            key={s.slug}
+            type="button"
+            onClick={() => setIdx(i)}
+            aria-label={`${s.brand} 샘플 보기`}
+            className={`hv-ctrl-dot ${i === idx ? "is-active" : ""}`}
+          />
+        ))}
+        <button
+          type="button"
+          onClick={next}
+          aria-label="다음 제작 샘플"
+          className="hv-ctrl-btn"
+        >
+          ›
+        </button>
       </div>
 
       {/* 오늘 문의 지표 카드 */}
@@ -111,13 +165,12 @@ export default function HeroVisual() {
         ))}
       </div>
 
-      {/* 업종과 짝 맞춘 문의 알림 토스트 (순환) */}
+      {/* 업종과 짝 맞춘 문의 알림 토스트 */}
       <div className="hv-toasts" aria-hidden>
         {TOASTS.map((t, i) => (
           <div
             key={t.title}
-            className="card hv-toast hv-cycle"
-            style={{ animationDelay: `${i * 4}s` }}
+            className={`card hv-fade hv-toast ${i === idx ? "is-active" : ""}`}
           >
             <span className="hv-toast-icon">{t.icon}</span>
             <span className="hv-toast-text">
@@ -158,7 +211,7 @@ export default function HeroVisual() {
           display: flex;
           align-items: center;
           gap: 6px;
-          padding: 12px 14px;
+          padding: 10px 14px;
           border-bottom: 1px solid var(--color-border);
           background: var(--color-bg-soft);
         }
@@ -184,22 +237,86 @@ export default function HeroVisual() {
           font-size: 11px;
           white-space: nowrap;
         }
-        .hv-made {
-          margin-left: auto;
-          padding: 3px 9px;
-          border-radius: 9999px;
+        /* 플로팅 컨트롤 — 브라우저 좌상단 모서리 바로 위, 왼쪽 라인에 정렬 */
+        .hv-ctrl {
+          position: absolute;
+          z-index: 2;
+          top: -14px;
+          left: 18%;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          padding: 7px 9px;
+          border-radius: 0.8rem;
+          box-shadow: 0 20px 40px -20px rgba(15, 23, 42, 0.22);
+        }
+        .hv-ctrl-btn {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 24px;
+          height: 24px;
+          border-radius: 6px;
+          border: 1px solid var(--color-border);
+          padding: 0 0 2px;
+          background: #fff;
+          color: var(--color-fg);
+          font-size: 15px;
+          font-weight: 700;
+          line-height: 1;
+          cursor: pointer;
+          transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+        }
+        .hv-ctrl-btn:hover {
           background: var(--color-brand-50);
+          color: var(--color-brand-700);
+          border-color: var(--color-brand-300);
+        }
+        .hv-ctrl-dot {
+          width: 6px;
+          height: 6px;
+          border-radius: 9999px;
+          border: none;
+          padding: 0;
+          background: var(--color-bg-muted);
+          cursor: pointer;
+          transition: background 0.2s ease, width 0.2s ease;
+        }
+        .hv-ctrl-dot.is-active {
+          width: 16px;
+          background: var(--color-brand-500);
+        }
+        .hv-made {
+          position: absolute;
+          left: 12px;
+          bottom: 12px;
+          z-index: 3;
+          padding: 4px 10px;
+          border-radius: 9999px;
+          background: rgba(255, 255, 255, 0.92);
           color: var(--color-brand-700);
           font-size: 9.5px;
           font-weight: 700;
           white-space: nowrap;
+          box-shadow: 0 2px 8px rgba(15, 23, 42, 0.12);
         }
 
-        /* 실제 스크린샷 무대 — 캡처 비율(1280×860)에 맞춰 크로스페이드 */
+        /* 스크린샷 무대 — 통계 밴드까지만 크롭(1280×800), 하단은 페이드 처리 */
         .hv-shots {
           position: relative;
-          aspect-ratio: 1280 / 860;
+          aspect-ratio: 1280 / 800;
           background: var(--color-bg-soft);
+        }
+        .hv-shots::after {
+          content: "";
+          position: absolute;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          height: 44px;
+          z-index: 2;
+          pointer-events: none;
+          background: linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.95));
         }
         .hv-shot {
           position: absolute;
@@ -210,6 +327,19 @@ export default function HeroVisual() {
           object-fit: cover;
           object-position: top;
         }
+
+        /* 공통 크로스페이드 — is-active만 보이고 클릭된다 */
+        .hv-fade {
+          opacity: 0;
+          visibility: hidden;
+          transition: opacity 0.55s ease, visibility 0s linear 0.55s;
+        }
+        .hv-fade.is-active {
+          opacity: 1;
+          visibility: visible;
+          transition: opacity 0.55s ease, visibility 0s;
+        }
+
         .hv-open {
           position: absolute;
           right: 12px;
@@ -316,8 +446,8 @@ export default function HeroVisual() {
 
         .hv-toasts {
           position: absolute;
-          right: 22px;
-          bottom: 12px;
+          right: -8px;
+          bottom: 6px;
           width: min(340px, 78%);
           height: 72px;
           z-index: 2;
@@ -348,31 +478,9 @@ export default function HeroVisual() {
 
         .hv-float { animation: hv-float 5s ease-in-out infinite; }
 
-        /* 업종 순환 공통 — 12초 주기, 4초씩 노출 */
-        .hv-cycle {
-          opacity: 0;
-          animation: hv-cycle 12s ease-in-out infinite;
-        }
-        /* 스크린샷 씬은 visibility까지 함께 순환 — 보이는 씬만 클릭된다 */
-        .hv-shot.hv-cycle {
-          visibility: hidden;
-          animation-name: hv-cycle-shot;
-        }
-        .hv-shots:hover .hv-shot { animation-play-state: paused; }
-        @keyframes hv-cycle-shot {
-          0% { opacity: 0; visibility: hidden; }
-          3%, 30% { opacity: 1; visibility: visible; }
-          36%, 100% { opacity: 0; visibility: hidden; }
-        }
-
         @keyframes hv-float {
           0%, 100% { transform: translateY(0); }
           50% { transform: translateY(-10px); }
-        }
-        @keyframes hv-cycle {
-          0% { opacity: 0; }
-          3%, 30% { opacity: 1; }
-          36%, 100% { opacity: 0; }
         }
         @keyframes hv-grow {
           0%, 100% { transform: scaleY(0.86); }
@@ -382,15 +490,13 @@ export default function HeroVisual() {
         @media (max-width: 480px) {
           .hv-browser { width: 94%; margin-inline: auto; }
           .hv-steps { display: none; }
+          .hv-url { max-width: 110px; }
+          .hv-ctrl { left: 3%; top: -14px; }
         }
 
         @media (prefers-reduced-motion: reduce) {
           .hv-float, .hv-chart-bar { animation: none; }
-          .hv-cycle { animation: none; }
-          .hv-shot:first-child, .hv-toast:first-child, .hv-url-text:first-child {
-            opacity: 1;
-            visibility: visible;
-          }
+          .hv-fade { transition: none; }
         }
       `}</style>
     </div>
