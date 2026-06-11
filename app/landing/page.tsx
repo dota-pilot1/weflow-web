@@ -9,6 +9,7 @@ import {
 import { PROCESS_6 } from "@/lib/content/service";
 import { REVIEWS } from "@/lib/content/home";
 import { COMPANY, LINKS } from "@/lib/site";
+import LineIcon from "@/components/LineIcon";
 
 export const metadata = {
   title: "WEFLOW — 무료 진단 신청",
@@ -22,27 +23,27 @@ const BENEFITS = [
   {
     title: "빠른 제작 진행",
     desc: "랜딩페이지 3~4일 / 홈페이지 약 1주일. 빠르게 제작하고 빠르게 운영 시작합니다.",
-    icon: "🚀",
+    icon: "zap",
   },
   {
     title: "합리적인 비용",
     desc: "불필요한 비용 없이, 필요한 기능만. 가성비 + 실속 + 퀄리티를 함께 제공합니다.",
-    icon: "💰",
+    icon: "wallet",
   },
   {
     title: "24시간 상담 가능",
     desc: "정해진 시간만 기다리지 마세요. 문의가 생길 때 언제든 빠른 상담 가능합니다.",
-    icon: "📞",
+    icon: "headset",
   },
   {
     title: "제작 후 운영 관리",
     desc: "홈페이지 만들고 끝이 아닙니다. 검색 등록 · 수정 · 유지보수까지 함께합니다.",
-    icon: "🛠️",
+    icon: "wrench",
   },
   {
     title: "광고 연동 지원",
     desc: "인스타 · 스레드 · 블로그 · 카카오톡 · 당근 플레이스 광고까지 한 번에 연결합니다.",
-    icon: "📊",
+    icon: "megaphone",
   },
 ];
 
@@ -71,7 +72,8 @@ export default function LandingPage() {
             href={LINKS.phoneTel}
             className="inline-flex items-center gap-1.5 rounded-full bg-[var(--color-brand-50)] px-3.5 py-1.5 text-xs sm:text-sm font-semibold text-[var(--color-brand-700)] hover:bg-[var(--color-brand-100)] transition"
           >
-            📞 {LINKS.phone}
+            <LineIcon name="phone" className="h-3.5 w-3.5" />
+            {LINKS.phone}
           </a>
         </div>
       </header>
@@ -90,7 +92,7 @@ export default function LandingPage() {
                   <span
                     style={{
                       backgroundImage:
-                        "linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)",
+                        "linear-gradient(135deg, var(--color-brand-500) 0%, var(--color-brand-700) 100%)",
                       WebkitBackgroundClip: "text",
                       WebkitTextFillColor: "transparent",
                     }}
@@ -124,7 +126,12 @@ export default function LandingPage() {
                 <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {BENEFITS.map((b) => (
                     <div key={b.title} className="card p-5 sm:p-6">
-                      <div className="text-2xl">{b.icon}</div>
+                      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[var(--color-brand-50)] ring-1 ring-[var(--color-brand-100)]">
+                        <LineIcon
+                          name={b.icon}
+                          className="h-5 w-5 text-[var(--color-brand-600)]"
+                        />
+                      </div>
                       <h3 className="mt-3 font-bold text-base sm:text-lg">
                         {b.title}
                       </h3>
@@ -171,8 +178,11 @@ export default function LandingPage() {
                       key={s.no}
                       className="flex items-start gap-3 rounded-xl bg-[var(--color-bg-soft)] p-4"
                     >
-                      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white text-base ring-1 ring-[var(--color-brand-200)]">
-                        {s.icon}
+                      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white ring-1 ring-[var(--color-brand-200)]">
+                        <LineIcon
+                          name={s.icon}
+                          className="h-4 w-4 text-[var(--color-brand-600)]"
+                        />
                       </span>
                       <div className="flex-1">
                         <p className="text-[10px] font-bold text-[var(--color-brand-600)] tracking-wider">
@@ -239,8 +249,9 @@ export default function LandingPage() {
             <aside className="lg:sticky lg:top-20" id="form">
               <div className="card p-6 shadow-xl ring-2 ring-[var(--color-brand-200)]">
                 <div className="flex items-center gap-2">
-                  <span className="inline-flex h-7 items-center rounded-full bg-rose-100 px-2.5 text-[10px] font-bold text-rose-700">
-                    ⏰ 24시간 내 답변
+                  <span className="inline-flex h-7 items-center gap-1 rounded-full bg-rose-100 px-2.5 text-[10px] font-bold text-rose-700">
+                    <LineIcon name="clock" className="h-3 w-3" />
+                    24시간 내 답변
                   </span>
                 </div>
                 <h3 className="mt-3 text-xl sm:text-2xl font-extrabold">
@@ -303,7 +314,12 @@ function MiniPlanCard({ plan }: { plan: Plan }) {
               isHighlight ? "text-[var(--color-brand-700)]" : "",
             ].join(" ")}
           >
-            {isHighlight && "👑 "}
+            {isHighlight && (
+              <LineIcon
+                name="crown"
+                className="mr-1 inline h-3.5 w-3.5 align-[-2px]"
+              />
+            )}
             {plan.name}
           </p>
           <p className="text-xs text-[var(--color-fg-mute)]">{plan.subtitle}</p>

@@ -50,10 +50,10 @@ const TOASTS = [
 const BARS = [34, 48, 40, 62, 56, 78, 92];
 
 const STEPS = [
-  { no: "01", label: "홈페이지 제작", color: "#3b82f6" },
-  { no: "02", label: "광고 연동", color: "#8b5cf6" },
-  { no: "03", label: "문의·예약 관리", color: "#10b981" },
-  { no: "04", label: "수정·관리", color: "#f59e0b" },
+  { no: "01", label: "홈페이지 제작" },
+  { no: "02", label: "광고 연동" },
+  { no: "03", label: "문의·예약 관리" },
+  { no: "04", label: "수정·관리" },
 ];
 
 export default function HeroVisual() {
@@ -175,13 +175,9 @@ export default function HeroVisual() {
       <div className="card hv-steps hv-float" style={{ animationDelay: "1.2s" }}>
         {STEPS.map((s) => (
           <div key={s.no} className="hv-step">
-            <span className="hv-step-no" style={{ color: s.color }}>
-              {s.no}
-            </span>
+            <span className="hv-step-no">{s.no}</span>
             <span className="hv-step-label">{s.label}</span>
-            <span className="hv-step-check" style={{ background: s.color }}>
-              ✓
-            </span>
+            <span className="hv-step-check">✓</span>
           </div>
         ))}
       </div>
@@ -207,26 +203,26 @@ export default function HeroVisual() {
         .hv-root {
           position: relative;
           width: 100%;
-          max-width: 600px;
+          max-width: 760px;
           margin-inline: auto;
-          padding: 28px 8px 56px 0;
+          padding: 32px 0 72px 0;
         }
         .hv-glow {
           position: absolute;
-          inset: -10% -16% -6% -8%;
+          inset: -12% -12% -8% -10%;
           background:
-            radial-gradient(40% 38% at 72% 24%, rgba(59, 130, 246, 0.16), transparent 70%),
-            radial-gradient(34% 32% at 18% 78%, rgba(29, 78, 216, 0.10), transparent 70%);
+            radial-gradient(42% 38% at 76% 20%, color-mix(in srgb, var(--color-brand-500) 16%, transparent), transparent 72%),
+            radial-gradient(34% 32% at 18% 78%, color-mix(in srgb, var(--color-brand-300) 12%, transparent), transparent 70%);
           z-index: 0;
         }
 
         .hv-browser {
           position: relative;
           z-index: 1;
-          width: 76%;
+          width: 82%;
           margin-left: auto;
-          border-radius: 1.25rem;
-          box-shadow: 0 24px 48px -24px rgba(15, 23, 42, 0.18);
+          border-radius: 1.35rem;
+          box-shadow: 0 34px 70px -34px rgba(15, 23, 42, 0.30);
           overflow: hidden;
         }
         .hv-bar-top {
@@ -269,11 +265,11 @@ export default function HeroVisual() {
           font-weight: 700;
           white-space: nowrap;
         }
-        .hv-body { padding: 18px 20px 20px; }
+        .hv-body { padding: 22px 24px 24px; }
         .hv-nav { display: flex; align-items: center; gap: 12px; }
         .hv-logo {
           width: 24px; height: 24px; border-radius: 8px;
-          background-image: linear-gradient(135deg, #3b82f6, #1d4ed8);
+          background-image: linear-gradient(135deg, var(--color-brand-500), var(--color-brand-700));
         }
         .hv-nav-links {
           display: flex; gap: 12px; margin-left: auto;
@@ -282,23 +278,23 @@ export default function HeroVisual() {
         }
         .hv-nav-cta {
           padding: 5px 11px; border-radius: 9999px;
-          background-image: linear-gradient(135deg, #3b82f6, #2563eb);
+          background-image: linear-gradient(135deg, var(--color-brand-500), var(--color-brand-600));
           color: #fff; font-size: 10px; font-weight: 700;
           white-space: nowrap;
         }
 
-        .hv-scenes { display: grid; margin-top: 22px; }
+        .hv-scenes { display: grid; margin-top: 28px; }
         .hv-scene { grid-area: 1 / 1; }
 
         .hv-hero {
           display: grid;
           grid-template-columns: 1.15fr 0.85fr;
-          gap: 16px;
+          gap: 22px;
           align-items: center;
         }
         .hv-copy { display: flex; flex-direction: column; gap: 8px; }
         .hv-h {
-          font-size: 15px; font-weight: 800;
+          font-size: 18px; font-weight: 800;
           letter-spacing: -0.02em; line-height: 1.25;
           white-space: nowrap;
         }
@@ -307,7 +303,7 @@ export default function HeroVisual() {
           -webkit-text-fill-color: transparent;
         }
         .hv-line-thin {
-          height: 7px; border-radius: 9999px;
+          height: 8px; border-radius: 9999px;
           background: var(--color-bg-muted);
         }
         .hv-cta-row { display: flex; gap: 6px; margin-top: 6px; }
@@ -327,8 +323,8 @@ export default function HeroVisual() {
 
         .hv-form {
           display: flex; flex-direction: column; gap: 7px;
-          padding: 12px;
-          border-radius: 12px;
+          padding: 14px;
+          border-radius: 14px;
           border: 1px solid var(--color-border);
           background: var(--color-bg-soft);
         }
@@ -363,11 +359,11 @@ export default function HeroVisual() {
         .hv-chart {
           position: absolute;
           z-index: 2;
-          top: 0;
-          right: 0;
-          width: 168px;
-          padding: 14px;
-          border-radius: 1rem;
+          top: 4px;
+          right: -8px;
+          width: 178px;
+          padding: 15px;
+          border-radius: 1.1rem;
           box-shadow: 0 20px 40px -20px rgba(15, 23, 42, 0.22);
         }
         .hv-chart-head {
@@ -398,7 +394,7 @@ export default function HeroVisual() {
         }
         .hv-chart-bar {
           flex: 1; border-radius: 4px 4px 2px 2px;
-          background-image: linear-gradient(180deg, #3b82f6, #93c5fd);
+          background-image: linear-gradient(180deg, var(--color-brand-500), var(--color-brand-300));
           transform-origin: bottom;
           animation: hv-grow 2.6s ease-in-out infinite;
         }
@@ -406,9 +402,9 @@ export default function HeroVisual() {
         .hv-steps {
           position: absolute;
           z-index: 2;
-          left: 0;
-          top: 34%;
-          width: 150px;
+          left: 8px;
+          top: 39%;
+          width: 166px;
           padding: 12px 14px;
           border-radius: 1rem;
           box-shadow: 0 20px 40px -20px rgba(15, 23, 42, 0.22);
@@ -425,6 +421,7 @@ export default function HeroVisual() {
           font-size: 10px;
           font-weight: 800;
           letter-spacing: 0.02em;
+          color: var(--color-brand-600);
         }
         .hv-step-label {
           flex: 1;
@@ -443,13 +440,14 @@ export default function HeroVisual() {
           color: #fff;
           font-size: 9px;
           font-weight: 800;
+          background: var(--color-brand-500);
         }
 
         .hv-toasts {
           position: absolute;
-          right: 0;
-          bottom: 8px;
-          width: min(300px, 78%);
+          right: 22px;
+          bottom: 12px;
+          width: min(340px, 78%);
           height: 72px;
           z-index: 2;
         }

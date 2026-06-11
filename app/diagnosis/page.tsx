@@ -1,4 +1,5 @@
 import ContactForm from "@/components/forms/ContactForm";
+import LineIcon from "@/components/LineIcon";
 
 export const metadata = {
   title: "무료진단 | WEFLOW",
@@ -33,18 +34,25 @@ export default async function DiagnosisPage({
   const sp = await searchParams;
   const initialIndustry = sp.industry?.trim() || undefined;
   return (
-    <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-14 lg:py-20">
-      <header className="text-center">
-        <span className="chip">무료 진단 · 24시간 내 견적 회신</span>
-        <h1 className="mt-5 text-3xl sm:text-4xl font-extrabold tracking-tight">
-          무료진단 받기
-        </h1>
-        <p className="mt-3 text-[var(--color-fg-soft)]">
-          지금 바로 무료 진단받고, 사이트의 숨겨진 잠재력을 발견하세요.
-        </p>
-      </header>
+    <>
+      <section className="page-hero">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-14 lg:py-20">
+          <header className="text-center">
+            <span className="chip bg-white ring-1 ring-[var(--color-brand-100)] shadow-sm">
+              무료 진단 · 24시간 내 견적 회신
+            </span>
+            <h1 className="mt-5 text-3xl sm:text-4xl font-extrabold tracking-tight">
+              무료진단 받기
+            </h1>
+            <p className="mt-3 text-[var(--color-fg-soft)]">
+              지금 바로 무료 진단받고, 사이트의 숨겨진 잠재력을 발견하세요.
+            </p>
+          </header>
+        </div>
+      </section>
 
-      <div className="mt-12 grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-8 items-start">
+      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-8 items-start">
         {/* LEFT — 진단 항목 4개 */}
         <aside className="space-y-3 lg:sticky lg:top-24">
           <div className="card p-6 sm:p-8">
@@ -70,7 +78,10 @@ export default async function DiagnosisPage({
           </div>
 
           <div className="card p-5 bg-gradient-to-br from-[var(--color-brand-600)] to-[var(--color-brand-700)] text-white border-0">
-            <p className="text-sm font-semibold">⚡ 24시간 내 연락 보장</p>
+            <p className="flex items-center gap-1.5 text-sm font-semibold">
+              <LineIcon name="zap" className="h-4 w-4" />
+              24시간 내 연락 보장
+            </p>
             <p className="mt-1 text-xs text-white/80">
               제출 즉시 상담 전문가가 검토 후 빠르게 연락드립니다.
             </p>
@@ -86,6 +97,7 @@ export default async function DiagnosisPage({
           />
         </div>
       </div>
-    </section>
+      </section>
+    </>
   );
 }

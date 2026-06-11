@@ -4,12 +4,12 @@ export const BENEFITS = {
   title: "WEFLOW만의 케어 플랜 혜택",
   sub: "제작에서 끝나지 않습니다. 운영 · 광고 · 관리까지 한 번에.",
   cards: [
-    { icon: "🔗", title: "WEFLOW 케어플랜", desc: "제작 + 운영 + 광고 + 관리 원터치" },
-    { icon: "🚀", title: "빠른 제작", desc: "3~7일 로켓 배송" },
-    { icon: "💰", title: "합리적인 가성비", desc: "퀄리티는 높게, 비용은 합리적으로" },
-    { icon: "📞", title: "24시간 상담 대기", desc: "빠른 상담 및 피드백" },
-    { icon: "📈", title: "운영 · 광고 지원", desc: "사후 관리 서비스" },
-    { icon: "🎯", title: "문의 구조 설계", desc: "업종별 맞춤 문의 동선 구성" },
+    { icon: "layers", title: "WEFLOW 케어플랜", desc: "제작 + 운영 + 광고 + 관리 원터치" },
+    { icon: "zap", title: "빠른 제작", desc: "3~7일 로켓 배송" },
+    { icon: "wallet", title: "합리적인 가성비", desc: "퀄리티는 높게, 비용은 합리적으로" },
+    { icon: "headset", title: "24시간 상담 대기", desc: "빠른 상담 및 피드백" },
+    { icon: "trending", title: "운영 · 광고 지원", desc: "사후 관리 서비스" },
+    { icon: "target", title: "문의 구조 설계", desc: "업종별 맞춤 문의 동선 구성" },
   ],
   flow: ["고객 의뢰", "접수 후 제작", "3~7일 배송 완료", "광고 및 운영 사후 관리"],
 };
@@ -18,12 +18,12 @@ export const PROCESS_SIX = {
   title: "6단계 제작 프로세스",
   sub: "체계적인 단계로 완성도를 보장합니다",
   steps: [
-    { no: "01", label: "상담 · 진단", desc: "업종 및 제작 방향 확인" },
-    { no: "02", label: "기획 · 설계", desc: "문의 구조 및 전략 설계" },
-    { no: "03", label: "디자인", desc: "브랜드 맞춤 화면 구성" },
-    { no: "04", label: "개발 · 제작", desc: "기능 구현 · 검수 · 수정" },
-    { no: "05", label: "SEO 최적화", desc: "네이버 · 구글 · 사이트맵 등록" },
-    { no: "06", label: "광고 · 사후관리", desc: "키워드 광고 운영 관리" },
+    { no: "01", label: "상담 · 진단", desc: "업종 및 제작 방향 확인", icon: "chat" },
+    { no: "02", label: "기획 · 설계", desc: "문의 구조 및 전략 설계", icon: "ruler" },
+    { no: "03", label: "디자인", desc: "브랜드 맞춤 화면 구성", icon: "palette" },
+    { no: "04", label: "개발 · 제작", desc: "기능 구현 · 검수 · 수정", icon: "code" },
+    { no: "05", label: "SEO 최적화", desc: "네이버 · 구글 · 사이트맵 등록", icon: "search" },
+    { no: "06", label: "광고 · 사후관리", desc: "키워드 광고 운영 관리", icon: "chart" },
   ],
 };
 

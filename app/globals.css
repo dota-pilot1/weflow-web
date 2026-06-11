@@ -9,12 +9,13 @@
   --color-fg-mute: #64748b;
   --color-border: #e5e9f0;
 
-  --color-brand-50: #eef4ff;
-  --color-brand-100: #dbe6ff;
-  --color-brand-300: #7ea4ff;
-  --color-brand-500: #3b82f6;
-  --color-brand-600: #2563eb;
-  --color-brand-700: #1d4ed8;
+  /* 채도를 낮춘 딥 인디고 블루 — Tailwind 기본 blue 대비 차분하고 무게감 있게 */
+  --color-brand-50: #f4f7fd;
+  --color-brand-100: #e2eafb;
+  --color-brand-300: #a3b8ef;
+  --color-brand-500: #3e63dd;
+  --color-brand-600: #3355cc;
+  --color-brand-700: #2a47ad;
 
   --color-accent-400: #fbbf24;
   --color-accent-500: #f59e0b;
@@ -27,7 +28,46 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    /* 파생 토큰 — 전부 brand에서 color-mix로 유도하므로 테마 전환 시 자동으로 따라온다 */
+    --color-brand-radial-glow-1: color-mix(in srgb, var(--color-brand-500) 13%, transparent);
+    --color-brand-radial-glow-2: color-mix(in srgb, var(--color-brand-300) 12%, transparent);
+    --color-brand-bg-blend: color-mix(in srgb, var(--color-brand-500) 4%, #f8fafc);
+    --color-brand-shadow: color-mix(in srgb, var(--color-brand-600) 55%, transparent);
+    --color-brand-shadow-hover: color-mix(in srgb, var(--color-brand-600) 70%, transparent);
+    /* 섹션 교차 배경(surface 단계) — 뉴트럴 베이스에 brand를 소량 섞어 톤 유지 */
+    --color-band-soft: color-mix(in srgb, var(--color-brand-500) 6%, #f4f6f9);
+    --color-band-deep: color-mix(in srgb, var(--color-brand-500) 10%, #eceff4);
+    --color-band-glow: color-mix(in srgb, var(--color-brand-300) 30%, transparent);
   }
+
+  /* theme color overrides — brand 6단계만 바꾸면 파생 토큰은 자동 연동 */
+  html[data-theme="rose"] {
+    --color-brand-50: #fdf3f5;
+    --color-brand-100: #fae0e7;
+    --color-brand-300: #efa3b8;
+    --color-brand-500: #db3d66;
+    --color-brand-600: #c33058;
+    --color-brand-700: #a3264a;
+  }
+
+  html[data-theme="mint"] {
+    --color-brand-50: #f0faf4;
+    --color-brand-100: #d9f2e3;
+    --color-brand-300: #84cfa7;
+    --color-brand-500: #1f9d62;
+    --color-brand-600: #1a8656;
+    --color-brand-700: #156d47;
+  }
+
+  html[data-theme="lavender"] {
+    --color-brand-50: #f7f5fd;
+    --color-brand-100: #e9e4f9;
+    --color-brand-300: #b5a6ea;
+    --color-brand-500: #6e56cf;
+    --color-brand-600: #6249bd;
+    --color-brand-700: #5239a6;
+  }
+
   body {
     background: var(--color-bg);
     color: var(--color-fg);
@@ -40,6 +80,41 @@
 }
 
 @layer components {
+  .home-shell,
+  .page-shell {
+    background:
+      radial-gradient(56rem 32rem at 84% 30%, var(--color-brand-radial-glow-1), transparent 74%),
+      radial-gradient(46rem 28rem at 18% 40%, var(--color-brand-radial-glow-2), transparent 70%),
+      linear-gradient(180deg, var(--color-brand-50) 0%, var(--color-brand-bg-blend) 30%, #ffffff 100%);
+    background-repeat: no-repeat;
+    background-size: 100% 820px;
+  }
+
+  .home-hero {
+    position: relative;
+    background: transparent;
+  }
+
+  .home-hero::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in srgb, var(--color-brand-600) 20%, transparent),
+      transparent
+    );
+  }
+
+  .page-hero {
+    position: relative;
+    background: transparent;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.18);
+  }
   .btn-primary {
     display: inline-flex;
     align-items: center;
@@ -47,15 +122,15 @@
     gap: 0.5rem;
     padding: 0.875rem 1.5rem;
     border-radius: 9999px;
-    background-image: linear-gradient(135deg, #3b82f6 0%, #2563eb 50%, #1d4ed8 100%);
+    background-image: linear-gradient(135deg, var(--color-brand-500) 0%, var(--color-brand-600) 50%, var(--color-brand-700) 100%);
     color: #fff;
     font-weight: 600;
-    box-shadow: 0 10px 24px -10px rgba(37, 99, 235, 0.55);
+    box-shadow: 0 10px 24px -10px var(--color-brand-shadow);
     transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
   }
   .btn-primary:hover {
     transform: translateY(-1px);
-    box-shadow: 0 14px 28px -10px rgba(37, 99, 235, 0.7);
+    box-shadow: 0 14px 28px -10px var(--color-brand-shadow-hover);
     filter: brightness(1.05);
   }
   .btn-secondary {
@@ -81,9 +156,16 @@
     border-radius: 1rem;
     box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
   }
-  /* 섹션 교차 배경 — 카드/폼용 bg-soft보다 한 톤 깊게 */
+  /* 섹션 교차 배경 — 카드/폼용 bg-soft보다 한 톤 깊게, 테마 연동 */
   .section-soft {
-    background: linear-gradient(180deg, #f8fbff 0%, #edf3fb 100%);
+    background:
+      radial-gradient(52rem 28rem at 50% 0%, var(--color-band-glow), transparent 74%),
+      linear-gradient(180deg, var(--color-band-soft) 0%, var(--color-band-deep) 100%);
+    border-top: 1px solid rgba(100, 116, 139, 0.20);
+    border-bottom: 1px solid rgba(100, 116, 139, 0.12);
+    box-shadow:
+      inset 0 24px 56px -46px rgba(15, 23, 42, 0.35),
+      inset 0 -18px 42px -40px rgba(15, 23, 42, 0.22);
   }
   .chip {
     display: inline-flex;

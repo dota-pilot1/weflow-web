@@ -4,6 +4,7 @@ import {
   AD_SYSTEMS,
   type AdSystem,
 } from "@/lib/content/service";
+import LineIcon from "@/components/LineIcon";
 
 export const metadata = {
   title: "서비스 | WEFLOW",
@@ -21,33 +22,37 @@ export default function ServicePage() {
   return (
     <>
       {/* HERO */}
-      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-14 lg:py-20">
-        <header className="text-center">
-          <span className="chip">WEFLOW SERVICE</span>
-          <h1 className="mt-5 text-3xl sm:text-5xl font-extrabold tracking-tight">
-            상담부터 사후관리까지,
-            <br />
-            <span
-              style={{
-                backgroundImage:
-                  "linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-              }}
-            >
-              WEFLOW가 함께합니다
+      <section className="page-hero">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-14 lg:py-20">
+          <header className="text-center">
+            <span className="chip bg-white ring-1 ring-[var(--color-brand-100)] shadow-sm">
+              WEFLOW SERVICE
             </span>
-          </h1>
-          <p className="mt-5 text-[var(--color-fg-soft)]">
-            기획 · 디자인 · 개발 · SEO · 광고 운영까지
-            <br />
-            단계별 전문 인력이 책임지고 진행합니다.
-          </p>
-        </header>
+            <h1 className="mt-5 text-3xl sm:text-5xl font-extrabold tracking-tight">
+              상담부터 사후관리까지,
+              <br />
+              <span
+                style={{
+                  backgroundImage:
+                    "linear-gradient(135deg, var(--color-brand-500) 0%, var(--color-brand-700) 100%)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                }}
+              >
+                WEFLOW가 함께합니다
+              </span>
+            </h1>
+            <p className="mt-5 text-[var(--color-fg-soft)]">
+              기획 · 디자인 · 개발 · SEO · 광고 운영까지
+              <br />
+              단계별 전문 인력이 책임지고 진행합니다.
+            </p>
+          </header>
+        </div>
       </section>
 
       {/* SECTION 1 — 6단계 제작 과정 (세로 타임라인) */}
-      <section className="bg-[var(--color-bg-soft)]">
+      <section className="section-soft">
         <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-16 lg:py-20">
           <div className="text-center">
             <span className="chip">PROCESS</span>
@@ -73,9 +78,12 @@ export default function ServicePage() {
                 {/* 점 */}
                 <span
                   aria-hidden
-                  className="absolute left-0 sm:left-2 top-2 flex h-9 w-9 sm:h-11 sm:w-11 items-center justify-center rounded-full bg-white ring-2 ring-[var(--color-brand-500)] text-base sm:text-lg shadow-sm"
+                  className="absolute left-0 sm:left-2 top-2 flex h-9 w-9 sm:h-11 sm:w-11 items-center justify-center rounded-full bg-white ring-2 ring-[var(--color-brand-500)] shadow-sm"
                 >
-                  {s.icon}
+                  <LineIcon
+                    name={s.icon}
+                    className="h-4 w-4 sm:h-5 sm:w-5 text-[var(--color-brand-600)]"
+                  />
                 </span>
                 {/* 카드 */}
                 <div className="card p-5 sm:p-6">
@@ -116,7 +124,12 @@ export default function ServicePage() {
               className="group card p-5 sm:p-6 hover:shadow-md hover:-translate-y-0.5 transition"
             >
               <div className="flex items-start justify-between">
-                <div className="text-3xl sm:text-4xl">{a.icon}</div>
+                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[var(--color-brand-50)] ring-1 ring-[var(--color-brand-100)]">
+                  <LineIcon
+                    name={a.icon}
+                    className="h-5 w-5 text-[var(--color-brand-600)]"
+                  />
+                </div>
                 <span
                   className={[
                     "inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold ring-1",

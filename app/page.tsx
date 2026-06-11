@@ -8,67 +8,72 @@ import {
 } from "@/lib/content/home";
 import ProcessSixCarousel from "@/components/landing/ProcessSixCarousel";
 import HeroVisual from "@/components/landing/HeroVisual";
+import LineIcon from "@/components/LineIcon";
 
 export default function HomePage() {
   return (
     <>
       {/* HERO */}
-      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-16 lg:pt-24 pb-20 lg:pb-32">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center">
-          <div className="text-center lg:text-left">
-            <span className="chip">홈페이지 · 랜딩 · 광고 · 운영</span>
-            <h1 className="mt-6 text-4xl sm:text-5xl xl:text-6xl font-extrabold leading-tight tracking-tight">
-              문의로 이어지는
-              <br />
-              <span
-                style={{
-                  backgroundImage:
-                    "linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                }}
-              >
-                홈페이지를 만듭니다
+      <section className="home-hero relative isolate overflow-hidden pt-16 lg:pt-20 pb-20 lg:pb-28">
+        <div className="mx-auto max-w-[88rem] px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-[0.92fr_1.08fr] gap-14 lg:gap-8 items-center">
+            <div className="text-center lg:text-left lg:pt-10">
+              <span className="chip bg-white ring-1 ring-[var(--color-brand-100)] shadow-sm">
+                홈페이지 · 랜딩 · 문의관리 · 운영
               </span>
-            </h1>
-            <p className="mt-6 text-base sm:text-lg text-[var(--color-fg-soft)]">
-              홈페이지 제작부터 광고 연동 · 운영 관리까지
-              <br />
-              단순 제작이 아닌 문의 구조까지 설계합니다.
-            </p>
+              <h1 className="mt-6 text-4xl sm:text-6xl xl:text-7xl font-extrabold leading-[1.04] tracking-tight">
+                문의로 이어지는
+                <br />
+                <span
+                  style={{
+                    backgroundImage:
+                      "linear-gradient(135deg, var(--color-brand-500) 0%, var(--color-brand-700) 100%)",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                  }}
+                >
+                  홈페이지를 만듭니다
+                </span>
+              </h1>
+              <p className="mt-7 text-base sm:text-xl text-[var(--color-fg-soft)] leading-relaxed">
+                홈페이지 제작부터 광고 연동 · 문의 관리까지
+                <br />
+                고객이 남기는 순간까지 설계합니다.
+              </p>
 
-            <div className="mt-10 flex flex-wrap items-center justify-center lg:justify-start gap-3">
-              <Link href="/diagnosis" className="btn-primary">
-                무료 진단 신청
-              </Link>
-              <Link href="/cases" className="btn-secondary">
-                성공 사례 보기
-              </Link>
-              <Link
-                href="/landing"
-                className="text-sm font-semibold text-[var(--color-fg-mute)] hover:text-[var(--color-brand-700)] transition px-2 py-2"
-              >
-                WEFLOW 랜딩 페이지 →
-              </Link>
+              <div className="mt-10 flex flex-wrap items-center justify-center lg:justify-start gap-3.5">
+                <Link href="/diagnosis" className="btn-primary">
+                  무료 진단 신청
+                </Link>
+                <Link href="/cases" className="btn-secondary">
+                  성공 사례 보기
+                </Link>
+                <Link
+                  href="/landing"
+                  className="text-sm font-semibold text-[var(--color-fg-mute)] hover:text-[var(--color-brand-700)] transition px-2 py-2"
+                >
+                  WEFLOW 랜딩 페이지 →
+                </Link>
+              </div>
+
+              <dl className="mt-12 flex items-start justify-center lg:justify-start divide-x divide-[var(--color-border)]">
+                {[
+                  ["문의 설계", "랜딩 · 폼 · 예약"],
+                  ["빠른 제작", "3일 ~ 7일"],
+                  ["운영 지원", "광고 · 수정 · 관리"],
+                ].map(([title, desc]) => (
+                  <div key={title} className="px-5 first:pl-0 text-left">
+                    <dt className="text-sm font-bold">{title}</dt>
+                    <dd className="text-xs text-[var(--color-fg-mute)] mt-1">
+                      {desc}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
             </div>
 
-            <dl className="mt-12 flex items-start justify-center lg:justify-start divide-x divide-[var(--color-border)]">
-              {[
-                ["케어 플랜", "제작 · 광고 · 운영"],
-                ["빠른 제작", "3일 ~ 7일"],
-                ["합리적 비용", "가성비 + 퀄리티"],
-              ].map(([title, desc]) => (
-                <div key={title} className="px-5 first:pl-0 text-left">
-                  <dt className="text-sm font-bold">{title}</dt>
-                  <dd className="text-xs text-[var(--color-fg-mute)] mt-1">
-                    {desc}
-                  </dd>
-                </div>
-              ))}
-            </dl>
+            <HeroVisual />
           </div>
-
-          <HeroVisual />
         </div>
       </section>
 
@@ -88,7 +93,9 @@ export default function HomePage() {
                 key={c.title}
                 className="card p-6 hover:shadow-md transition-shadow min-w-[280px] snap-start sm:min-w-0"
               >
-                <div className="text-3xl">{c.icon}</div>
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[var(--color-brand-50)] ring-1 ring-[var(--color-brand-100)]">
+                  <LineIcon name={c.icon} className="h-6 w-6 text-[var(--color-brand-600)]" />
+                </div>
                 <h3 className="mt-4 font-bold text-lg">{c.title}</h3>
                 <p className="mt-1.5 text-sm text-[var(--color-fg-soft)]">
                   {c.desc}
@@ -141,8 +148,8 @@ export default function HomePage() {
                 href="/cases"
                 className="card p-4 hover:border-[var(--color-brand-300)] hover:shadow-md transition group"
               >
-                <div className="aspect-[4/3] rounded-lg bg-gradient-to-br from-[var(--color-brand-50)] to-[var(--color-brand-100)] flex items-center justify-center text-3xl group-hover:scale-105 transition-transform">
-                  📷
+                <div className="aspect-[4/3] rounded-lg bg-gradient-to-br from-[var(--color-brand-50)] to-[var(--color-brand-100)] flex items-center justify-center group-hover:scale-105 transition-transform">
+                  <LineIcon name="window" className="h-8 w-8 text-[var(--color-brand-300)]" />
                 </div>
                 <div className="mt-3">
                   <p className="text-xs text-[var(--color-brand-600)] font-semibold">
@@ -164,7 +171,7 @@ export default function HomePage() {
       />
 
       {/* REVIEWS — 25개 양방향 마퀴 */}
-      <section className="py-24 sm:py-28 overflow-hidden">
+      <section className="py-24 sm:py-28 overflow-hidden bg-[var(--color-bg)]">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3">
             <div>
@@ -201,7 +208,7 @@ export default function HomePage() {
 
       {/* DIAGNOSIS CTA */}
       <section className="bg-gradient-to-br from-[var(--color-brand-600)] to-[var(--color-brand-700)] text-white">
-        <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-20 text-center">
+        <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-24 sm:py-28 text-center">
           <h2 className="text-3xl sm:text-4xl font-extrabold">
             {DIAGNOSIS_CTA.title}
           </h2>

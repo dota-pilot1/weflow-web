@@ -7,6 +7,7 @@ import {
   PRICING_PERKS,
   type Plan,
 } from "@/lib/content/pricing";
+import LineIcon from "@/components/LineIcon";
 
 export const metadata = {
   title: "제작플랜 & 가격안내 | WEFLOW",
@@ -20,18 +21,22 @@ export default function PricingPage() {
   return (
     <>
       {/* HERO */}
-      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-14 lg:py-20">
-        <header className="text-center">
-          <span className="chip">필수 선택형 · 3중 택1 · 파격 세일</span>
-          <h1 className="mt-5 text-3xl sm:text-5xl font-extrabold tracking-tight">
-            제작플랜 & 가격안내
-          </h1>
-          <p className="mt-4 text-[var(--color-fg-soft)]">
-            랜딩페이지부터 홈페이지, 케어 플랜, 광고 운영까지
-            <br />
-            합리적인 가격으로 시작하세요.
-          </p>
-        </header>
+      <section className="page-hero">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-14 lg:py-20">
+          <header className="text-center">
+            <span className="chip bg-white ring-1 ring-[var(--color-brand-100)] shadow-sm">
+              필수 선택형 · 3중 택1 · 파격 세일
+            </span>
+            <h1 className="mt-5 text-3xl sm:text-5xl font-extrabold tracking-tight">
+              제작플랜 & 가격안내
+            </h1>
+            <p className="mt-4 text-[var(--color-fg-soft)]">
+              랜딩페이지부터 홈페이지, 케어 플랜, 광고 운영까지
+              <br />
+              합리적인 가격으로 시작하세요.
+            </p>
+          </header>
+        </div>
       </section>
 
       {/* SECTION 1 — 제작 플랜 */}
@@ -168,7 +173,8 @@ function PlanCard({ plan }: { plan: Plan }) {
       {isHighlight && (
         <div className="absolute -top-3 left-1/2 -translate-x-1/2">
           <span className="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-[var(--color-brand-600)] to-[var(--color-brand-700)] px-3 py-1 text-xs font-bold text-white shadow-md">
-            👑 추천
+            <LineIcon name="crown" className="h-3.5 w-3.5" />
+            추천
           </span>
         </div>
       )}

@@ -21,10 +21,14 @@ export default function SiteChrome({
     return <>{children}</>;
   }
 
+  const shellClass = path === "/" ? "home-shell" : "page-shell";
+
   return (
     <>
-      {header}
-      <main className="flex-1">{children}</main>
+      <div className={shellClass}>
+        {header}
+        <main className="flex-1">{children}</main>
+      </div>
       {footer}
       {floatingBar}
     </>

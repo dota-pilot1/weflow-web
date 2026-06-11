@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 import { NAV } from "@/lib/site";
+import ThemeSwitcher from "./ThemeSwitcher";
 
 export default function Header() {
   const pathname = usePathname();
@@ -56,7 +57,7 @@ export default function Header() {
   return (
     <>
     <header className="sticky top-3 z-40 px-3 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-7xl rounded-full bg-[#0b1220]/95 backdrop-blur shadow-[0_16px_40px_-16px_rgba(11,18,32,0.5)] ring-1 ring-white/10 pl-6 pr-3 h-[64px] flex items-center justify-between">
+      <div className="mx-auto max-w-[88rem] rounded-full bg-white shadow-[0_18px_48px_-24px_rgba(15,23,42,0.28),0_8px_22px_-18px_rgba(15,23,42,0.36)] ring-1 ring-slate-200/80 pl-5 pr-3 lg:pl-8 lg:pr-4 h-[64px] flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2">
           <Image
             src="/logo.png"
@@ -66,15 +67,15 @@ export default function Header() {
             priority
             className="w-8 h-8"
           />
-          <span className="text-lg font-extrabold tracking-tight text-white">
+          <span className="text-lg font-extrabold tracking-tight text-[var(--color-fg)]">
             WEFLOW
           </span>
         </Link>
 
-        <nav ref={navRef} className="relative hidden md:flex items-center gap-2 py-2">
+        <nav ref={navRef} className="relative hidden md:flex items-center gap-1 lg:gap-2 py-2">
           {/* Sliding Indicator */}
           <div
-            className={`absolute bg-white/15 rounded-full pointer-events-none ${
+            className={`absolute bg-[var(--color-brand-50)] rounded-full pointer-events-none ${
               isFirstLayout ? "" : "transition-all duration-300 ease-out"
             }`}
             style={{
@@ -95,10 +96,10 @@ export default function Header() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors duration-300 relative z-10 ${
+                className={`px-3.5 lg:px-4 py-2 rounded-full text-sm font-semibold transition-colors duration-300 relative z-10 ${
                   active
-                    ? "active-nav-item text-white"
-                    : "text-white/65 hover:text-white hover:bg-white/10"
+                    ? "active-nav-item text-[var(--color-brand-700)]"
+                    : "text-[var(--color-fg-mute)] hover:text-[var(--color-fg)]"
                 }`}
               >
                 {item.label}
@@ -107,16 +108,17 @@ export default function Header() {
           })}
         </nav>
 
-        <div className="hidden md:flex items-center gap-2">
+        <div className="hidden md:flex items-center gap-3">
+          <ThemeSwitcher />
           <Link href="/diagnosis" className="btn-primary text-sm !py-2.5">
-            무료진단 받기
+            무료 진단
           </Link>
         </div>
 
         <button
           type="button"
           onClick={() => setOpen((v) => !v)}
-          className="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-full text-white/80 hover:bg-white/10"
+          className="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-full text-[var(--color-fg)] hover:bg-slate-100"
           aria-label="메뉴"
         >
           <div className="relative w-5 h-3.5 flex flex-col justify-between">
@@ -198,7 +200,7 @@ export default function Header() {
                 onClick={() => setOpen(false)}
                 className="btn-primary text-sm mt-3"
               >
-                무료진단 받기
+                무료 진단
               </Link>
             </nav>
           </div>

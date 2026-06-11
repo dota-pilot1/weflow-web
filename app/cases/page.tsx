@@ -41,21 +41,27 @@ export default async function CasesPage({
   return (
     <>
       {/* HERO */}
-      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-14 lg:py-20">
-        <header className="text-center">
-          <span className="chip">REAL CASES · 업종별 전환 최적화</span>
-          <h1 className="mt-5 text-3xl sm:text-5xl font-extrabold tracking-tight">
-            성공 사례
-          </h1>
-          <p className="mt-4 text-[var(--color-fg-soft)]">
-            어디서도 볼 수 없는 업종별 전환 최적화 사례를
-            <br />
-            직접 확인하세요.
-          </p>
-        </header>
+      <section className="page-hero">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-14 lg:py-20">
+          <header className="text-center">
+            <span className="chip bg-white ring-1 ring-[var(--color-brand-100)] shadow-sm">
+              REAL CASES · 업종별 전환 최적화
+            </span>
+            <h1 className="mt-5 text-3xl sm:text-5xl font-extrabold tracking-tight">
+              성공 사례
+            </h1>
+            <p className="mt-4 text-[var(--color-fg-soft)]">
+              어디서도 볼 수 없는 업종별 전환 최적화 사례를
+              <br />
+              직접 확인하세요.
+            </p>
+          </header>
+        </div>
+      </section>
 
+      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
         {/* 카테고리 필터 */}
-        <div className="mt-12 flex flex-wrap justify-center gap-2">
+        <div className="flex flex-wrap justify-center gap-2">
           <FilterChip
             href="/cases"
             label={`전체`}
