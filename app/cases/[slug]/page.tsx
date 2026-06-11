@@ -1,9 +1,11 @@
 import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import {
   CATEGORY_META,
   type CaseCategory,
 } from "@/lib/content/cases";
+import { demoImageFor, getDemo } from "@/lib/content/demos";
 import { getCaseBySlug } from "@/lib/supabase/queries/cases";
 
 export const revalidate = 60;
@@ -67,15 +69,44 @@ export default async function CaseDetailPage({
         )}
       </header>
 
-      {/* 히어로 — 카테고리 그라데이션 */}
-      <div
-        className={[
-          "mt-8 aspect-[16/7] rounded-2xl bg-gradient-to-br flex items-center justify-center overflow-hidden",
-          meta.gradient,
-        ].join(" ")}
-      >
-        <span className="text-7xl sm:text-9xl">{meta.emoji}</span>
-      </div>
+      {/* 히어로 — 제작 화면 스크린샷, 없으면 카테고리 그라데이션 */}
+      {(() => {
+        const image = demoImageFor(c.slug, c.category);
+        if (!image) {
+          return (
+            <div
+              className={[
+                "mt-8 aspect-[16/7] rounded-2xl bg-gradient-to-br flex items-center justify-center overflow-hidden",
+                meta.gradient,
+              ].join(" ")}
+            >
+              <span className="text-7xl sm:text-9xl">{meta.emoji}</span>
+            </div>
+          );
+        }
+        const demo = getDemo(c.slug);
+        return (
+          <div className="relative mt-8 aspect-[16/8] rounded-2xl overflow-hidden ring-1 ring-[var(--color-border)] shadow-sm">
+            <Image
+              src={image}
+              alt={`${c.title} 홈페이지 제작 화면`}
+              fill
+              sizes="(max-width: 1024px) 92vw, 1024px"
+              className="object-cover object-top"
+              priority
+            />
+            {demo && (
+              <Link
+                href={`/demo/${demo.slug}`}
+                target="_blank"
+                className="absolute right-4 bottom-4 rounded-full bg-slate-900/80 px-4 py-2 text-xs font-bold text-white hover:bg-slate-900 transition"
+              >
+                실제 사이트 보기 ↗
+              </Link>
+            )}
+          </div>
+        );
+      })()}
 
       {/* 지표 (BEFORE / AFTER) */}
       {c.metric_label && c.metric_before && c.metric_after && (

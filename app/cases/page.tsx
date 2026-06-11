@@ -1,9 +1,11 @@
 import Link from "next/link";
+import Image from "next/image";
 import {
   CATEGORY_META,
   ALL_CATEGORIES,
   type CaseCategory,
 } from "@/lib/content/cases";
+import { demoImageFor } from "@/lib/content/demos";
 import { listPublishedCases } from "@/lib/supabase/queries/cases";
 
 export const metadata = {
@@ -171,6 +173,7 @@ function CaseCard({
   summary: string | null;
 }) {
   const meta = CATEGORY_META[category];
+  const image = demoImageFor(slug, category);
   return (
     <Link
       href={`/cases/${slug}`}
@@ -179,17 +182,29 @@ function CaseCard({
         "hover:ring-[var(--color-brand-300)] hover:shadow-md transition",
       ].join(" ")}
     >
-      {/* 이미지 영역 — 카테고리 그라데이션 + 이모지 */}
-      <div
-        className={[
-          "aspect-[4/3] bg-gradient-to-br flex items-center justify-center",
-          meta.gradient,
-        ].join(" ")}
-      >
-        <span className="text-5xl sm:text-6xl transition-transform group-hover:scale-110">
-          {meta.emoji}
-        </span>
-      </div>
+      {/* 이미지 영역 — 제작 샘플 스크린샷, 없으면 카테고리 그라데이션 + 이모지 */}
+      {image ? (
+        <div className="relative aspect-[4/3] overflow-hidden">
+          <Image
+            src={image}
+            alt={`${title} 홈페이지 제작 화면`}
+            fill
+            sizes="(max-width: 768px) 45vw, 300px"
+            className="object-cover object-top transition-transform group-hover:scale-105"
+          />
+        </div>
+      ) : (
+        <div
+          className={[
+            "aspect-[4/3] bg-gradient-to-br flex items-center justify-center",
+            meta.gradient,
+          ].join(" ")}
+        >
+          <span className="text-5xl sm:text-6xl transition-transform group-hover:scale-110">
+            {meta.emoji}
+          </span>
+        </div>
+      )}
 
       {/* 텍스트 영역 */}
       <div className="p-4 flex-1 flex flex-col">

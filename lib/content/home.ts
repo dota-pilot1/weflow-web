@@ -40,12 +40,12 @@ export const CASES_PREVIEW = {
   sub: "어디서도 볼 수 없는 업종별 전환 최적화 사례를 직접 확인하세요.",
   more: "살펴보기 →",
   items: [
-    { title: "PT 트레이닝센터", category: "PT · 헬스" },
-    { title: "필라테스 스튜디오", category: "필라테스" },
-    { title: "보험설계사 사무소", category: "보험 설계" },
-    { title: "카센터", category: "자동차" },
-    { title: "법률 사무소", category: "전문직" },
-    { title: "인테리어 업체", category: "생활 서비스" },
+    { title: "PT 트레이닝센터", category: "PT · 헬스", image: "/demo/pt.png", demo: "pt" },
+    { title: "필라테스 스튜디오", category: "필라테스", image: "/demo/pilates.png", demo: "pilates" },
+    { title: "보험설계사 사무소", category: "보험 설계", image: "/demo/insurance.png", demo: "insurance" },
+    { title: "카센터", category: "자동차", image: "/demo/car.png", demo: "car" },
+    { title: "법률 사무소", category: "전문직", image: "/demo/law.png", demo: "law" },
+    { title: "인테리어 업체", category: "생활 서비스", image: "/demo/interior.png", demo: "interior" },
   ],
 };
 

@@ -9,6 +9,7 @@ import {
 } from "@/lib/content/home";
 import HeroVisual from "@/components/landing/HeroVisual";
 import LineIcon from "@/components/LineIcon";
+import Image from "next/image";
 
 export const metadata = {
   alternates: { canonical: "/" },
@@ -162,8 +163,14 @@ export default function HomePage() {
                 href="/cases"
                 className="card p-4 hover:border-[var(--color-brand-300)] hover:shadow-md transition group"
               >
-                <div className="aspect-[4/3] rounded-lg bg-gradient-to-br from-[var(--color-brand-50)] to-[var(--color-brand-100)] flex items-center justify-center group-hover:scale-105 transition-transform">
-                  <LineIcon name="window" className="h-8 w-8 text-[var(--color-brand-300)]" />
+                <div className="relative aspect-[4/3] rounded-lg overflow-hidden ring-1 ring-[var(--color-border)]">
+                  <Image
+                    src={item.image}
+                    alt={`${item.title} 홈페이지 제작 샘플`}
+                    fill
+                    sizes="(max-width: 640px) 45vw, 220px"
+                    className="object-cover object-top group-hover:scale-105 transition-transform"
+                  />
                 </div>
                 <div className="mt-3">
                   <p className="text-xs text-[var(--color-brand-600)] font-semibold">

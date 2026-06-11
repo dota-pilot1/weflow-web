@@ -16,7 +16,10 @@ export default function SiteChrome({
 }) {
   const path = usePathname();
   const isBare =
-    path.startsWith("/admin") || path === "/landing" || path.startsWith("/landing/");
+    path.startsWith("/admin") ||
+    path === "/landing" ||
+    path.startsWith("/landing/") ||
+    path.startsWith("/demo");
 
   if (isBare) {
     return <>{children}</>;

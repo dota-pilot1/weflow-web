@@ -1,44 +1,13 @@
-// 히어로 우측 비주얼 — 외부 이미지 없이 CSS 애니메이션으로
-// "WEFLOW가 만든 고객사 홈페이지에 문의가 들어오는 장면"을 표현한다.
-// 업종 3개(필라테스 → 법률 → 카센터)가 12초 주기로 크로스페이드 순환.
-const SCENES = [
-  {
-    key: "pilates",
-    url: "pilates-studio.kr",
-    grad: "linear-gradient(135deg, #10b981, #059669)",
-    h1: "바른 자세, 바른 몸",
-    h2: "체험 예약받는 필라테스",
-    cta: "체험 신청",
-    ghost: "클래스 보기",
-    formTitle: "체험 수업 예약",
-    submit: "예약하기",
-    chips: ["🧘 1:1 레슨", "📅 간편 예약", "📍 오시는 길"],
-  },
-  {
-    key: "law",
-    url: "ohlaw-firm.kr",
-    grad: "linear-gradient(135deg, #6366f1, #4f46e5)",
-    h1: "어려운 법률 문제,",
-    h2: "상담으로 이어지는 사무소",
-    cta: "상담 신청",
-    ghost: "성공 사례",
-    formTitle: "법률 상담 신청",
-    submit: "상담 신청",
-    chips: ["⚖️ 민사 · 형사", "📄 계약 검토", "🤝 방문 상담"],
-  },
-  {
-    key: "car",
-    url: "speed-carcenter.kr",
-    grad: "linear-gradient(135deg, #f59e0b, #d97706)",
-    h1: "수리부터 도색까지,",
-    h2: "견적 문의가 오는 카센터",
-    cta: "견적 문의",
-    ghost: "작업 사례",
-    formTitle: "빠른 견적 문의",
-    submit: "견적 받기",
-    chips: ["🔧 정비 · 수리", "🚗 판금 · 도색", "📞 긴급 출동"],
-  },
-];
+import Image from "next/image";
+import Link from "next/link";
+import { DEMOS } from "@/lib/content/demos";
+
+// 히어로 우측 비주얼 — WEFLOW가 만든 실제 데모 사이트 스크린샷이
+// 브라우저 프레임 안에서 12초 주기로 순환한다. 클릭하면 데모를 새 탭으로 연다.
+const SCENE_SLUGS = ["pilates", "law", "car"] as const;
+const SCENES = SCENE_SLUGS.map(
+  (slug) => DEMOS.find((d) => d.slug === slug)!
+);
 
 // 업종과 짝을 맞춘 문의 알림 (같은 12초 주기, 4초 간격)
 const TOASTS = [
@@ -58,101 +27,57 @@ const STEPS = [
 
 export default function HeroVisual() {
   return (
-    <div className="hv-root" aria-hidden>
-      <div className="hv-glow" />
+    <div className="hv-root">
+      <div className="hv-glow" aria-hidden />
 
-      {/* 고객사 홈페이지 목업 */}
+      {/* 데모 사이트 브라우저 목업 — 실제 스크린샷 순환 */}
       <div className="card hv-browser">
-        <div className="hv-bar-top">
+        <div className="hv-bar-top" aria-hidden>
           <span className="hv-dot" style={{ background: "#fca5a5" }} />
           <span className="hv-dot" style={{ background: "#fcd34d" }} />
           <span className="hv-dot" style={{ background: "#86efac" }} />
           <span className="hv-url">
             {SCENES.map((s, i) => (
               <span
-                key={s.key}
+                key={s.slug}
                 className="hv-cycle hv-url-text"
                 style={{ animationDelay: `${i * 4}s` }}
               >
-                {s.url}
+                {s.domain}
               </span>
             ))}
           </span>
           <span className="hv-made">made by WEFLOW</span>
         </div>
 
-        <div className="hv-body">
-          {/* 미니 네비 */}
-          <div className="hv-nav">
-            <span className="hv-logo" />
-            <span className="hv-nav-links">
-              <span>소개</span>
-              <span>서비스</span>
-              <span>후기</span>
-              <span>오시는 길</span>
-            </span>
-            <span className="hv-nav-cta">문의하기</span>
-          </div>
-
-          {/* 업종별 미니 랜딩 — 크로스페이드 순환 */}
-          <div className="hv-scenes">
-            {SCENES.map((s, i) => (
-              <div
-                key={s.key}
-                className="hv-scene hv-cycle"
-                style={{ animationDelay: `${i * 4}s` }}
-              >
-                <div className="hv-hero">
-                  <div className="hv-copy">
-                    <p className="hv-h">{s.h1}</p>
-                    <p
-                      className="hv-h hv-h-brand"
-                      style={{ backgroundImage: s.grad }}
-                    >
-                      {s.h2}
-                    </p>
-                    <span className="hv-line-thin" style={{ width: "88%" }} />
-                    <span className="hv-line-thin" style={{ width: "64%" }} />
-                    <div className="hv-cta-row">
-                      <span
-                        className="hv-btn"
-                        style={{ backgroundImage: s.grad }}
-                      >
-                        {s.cta}
-                      </span>
-                      <span className="hv-btn-ghost">{s.ghost}</span>
-                    </div>
-                  </div>
-
-                  {/* 미니 문의 폼 */}
-                  <div className="hv-form">
-                    <p className="hv-form-title">{s.formTitle}</p>
-                    <span className="hv-input">성함</span>
-                    <span className="hv-input">연락처</span>
-                    <span
-                      className="hv-submit"
-                      style={{ backgroundImage: s.grad }}
-                    >
-                      {s.submit}
-                    </span>
-                  </div>
-                </div>
-
-                <div className="hv-cards">
-                  {s.chips.map((c) => (
-                    <span key={c} className="hv-mini">
-                      {c}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
+        <div className="hv-shots">
+          {SCENES.map((s, i) => (
+            <Link
+              key={s.slug}
+              href={`/demo/${s.slug}`}
+              target="_blank"
+              className="hv-shot hv-cycle"
+              style={{ animationDelay: `${i * 4}s` }}
+              aria-label={`${s.brand} 제작 샘플 새 탭에서 보기`}
+            >
+              <Image
+                src={`/demo/${s.slug}.png`}
+                alt={`${s.brand} 홈페이지 제작 샘플`}
+                fill
+                sizes="(max-width: 1024px) 90vw, 620px"
+                className="hv-shot-img"
+                priority={i === 0}
+              />
+            </Link>
+          ))}
+          <span className="hv-open" aria-hidden>
+            실제 사이트 보기 ↗
+          </span>
         </div>
       </div>
 
       {/* 오늘 문의 지표 카드 */}
-      <div className="card hv-chart hv-float">
+      <div className="card hv-chart hv-float" aria-hidden>
         <div className="hv-chart-head">
           <span className="hv-chart-title">오늘 문의</span>
           <span className="hv-chart-badge">▲ 20%</span>
@@ -172,7 +97,11 @@ export default function HeroVisual() {
       </div>
 
       {/* 서비스 프로세스 체크리스트 카드 */}
-      <div className="card hv-steps hv-float" style={{ animationDelay: "1.2s" }}>
+      <div
+        className="card hv-steps hv-float"
+        style={{ animationDelay: "1.2s" }}
+        aria-hidden
+      >
         {STEPS.map((s) => (
           <div key={s.no} className="hv-step">
             <span className="hv-step-no">{s.no}</span>
@@ -183,7 +112,7 @@ export default function HeroVisual() {
       </div>
 
       {/* 업종과 짝 맞춘 문의 알림 토스트 (순환) */}
-      <div className="hv-toasts">
+      <div className="hv-toasts" aria-hidden>
         {TOASTS.map((t, i) => (
           <div
             key={t.title}
@@ -265,96 +194,38 @@ export default function HeroVisual() {
           font-weight: 700;
           white-space: nowrap;
         }
-        .hv-body { padding: 22px 24px 24px; }
-        .hv-nav { display: flex; align-items: center; gap: 12px; }
-        .hv-logo {
-          width: 24px; height: 24px; border-radius: 8px;
-          background-image: linear-gradient(135deg, var(--color-brand-500), var(--color-brand-700));
-        }
-        .hv-nav-links {
-          display: flex; gap: 12px; margin-left: auto;
-          font-size: 10px; font-weight: 600;
-          color: var(--color-fg-mute);
-        }
-        .hv-nav-cta {
-          padding: 5px 11px; border-radius: 9999px;
-          background-image: linear-gradient(135deg, var(--color-brand-500), var(--color-brand-600));
-          color: #fff; font-size: 10px; font-weight: 700;
-          white-space: nowrap;
-        }
 
-        .hv-scenes { display: grid; margin-top: 28px; }
-        .hv-scene { grid-area: 1 / 1; }
-
-        .hv-hero {
-          display: grid;
-          grid-template-columns: 1.15fr 0.85fr;
-          gap: 22px;
-          align-items: center;
-        }
-        .hv-copy { display: flex; flex-direction: column; gap: 8px; }
-        .hv-h {
-          font-size: 18px; font-weight: 800;
-          letter-spacing: -0.02em; line-height: 1.25;
-          white-space: nowrap;
-        }
-        .hv-h-brand {
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-        }
-        .hv-line-thin {
-          height: 8px; border-radius: 9999px;
-          background: var(--color-bg-muted);
-        }
-        .hv-cta-row { display: flex; gap: 6px; margin-top: 6px; }
-        .hv-btn, .hv-btn-ghost, .hv-submit, .hv-input {
-          white-space: nowrap;
-        }
-        .hv-btn {
-          padding: 6px 12px; border-radius: 9999px;
-          box-shadow: 0 8px 16px -8px rgba(15, 23, 42, 0.4);
-          color: #fff; font-size: 10px; font-weight: 700;
-        }
-        .hv-btn-ghost {
-          padding: 6px 12px; border-radius: 9999px;
-          border: 1px solid var(--color-border);
-          color: var(--color-fg-soft); font-size: 10px; font-weight: 700;
-        }
-
-        .hv-form {
-          display: flex; flex-direction: column; gap: 7px;
-          padding: 14px;
-          border-radius: 14px;
-          border: 1px solid var(--color-border);
+        /* 실제 스크린샷 무대 — 캡처 비율(1280×860)에 맞춰 크로스페이드 */
+        .hv-shots {
+          position: relative;
+          aspect-ratio: 1280 / 860;
           background: var(--color-bg-soft);
         }
-        .hv-form-title { font-size: 11px; font-weight: 800; }
-        .hv-input {
-          padding: 6px 9px; border-radius: 8px;
-          background: #fff; border: 1px solid var(--color-border);
-          font-size: 9.5px; color: var(--color-fg-mute);
+        .hv-shot {
+          position: absolute;
+          inset: 0;
+          display: block;
         }
-        .hv-submit {
-          margin-top: 2px;
-          padding: 7px 9px; border-radius: 8px;
-          color: #fff; font-size: 10px; font-weight: 700;
-          text-align: center;
+        .hv-shot-img {
+          object-fit: cover;
+          object-position: top;
         }
-
-        .hv-cards {
-          display: grid; grid-template-columns: repeat(3, 1fr);
-          gap: 8px; margin-top: 16px;
+        .hv-open {
+          position: absolute;
+          right: 12px;
+          bottom: 12px;
+          z-index: 3;
+          padding: 6px 12px;
+          border-radius: 9999px;
+          background: rgba(15, 23, 42, 0.78);
+          color: #fff;
+          font-size: 10.5px;
+          font-weight: 700;
+          opacity: 0;
+          transition: opacity 0.2s ease;
+          pointer-events: none;
         }
-        .hv-mini {
-          display: flex; align-items: center; justify-content: center;
-          gap: 4px;
-          padding: 7px 4px; border-radius: 8px;
-          background: var(--color-bg-soft);
-          border: 1px solid var(--color-border);
-          font-size: 9.5px; font-weight: 700;
-          color: var(--color-fg-soft);
-          white-space: nowrap;
-        }
+        .hv-browser:hover .hv-open { opacity: 1; }
 
         .hv-chart {
           position: absolute;
@@ -482,6 +353,17 @@ export default function HeroVisual() {
           opacity: 0;
           animation: hv-cycle 12s ease-in-out infinite;
         }
+        /* 스크린샷 씬은 visibility까지 함께 순환 — 보이는 씬만 클릭된다 */
+        .hv-shot.hv-cycle {
+          visibility: hidden;
+          animation-name: hv-cycle-shot;
+        }
+        .hv-shots:hover .hv-shot { animation-play-state: paused; }
+        @keyframes hv-cycle-shot {
+          0% { opacity: 0; visibility: hidden; }
+          3%, 30% { opacity: 1; visibility: visible; }
+          36%, 100% { opacity: 0; visibility: hidden; }
+        }
 
         @keyframes hv-float {
           0%, 100% { transform: translateY(0); }
@@ -499,16 +381,15 @@ export default function HeroVisual() {
 
         @media (max-width: 480px) {
           .hv-browser { width: 94%; margin-inline: auto; }
-          .hv-hero { grid-template-columns: 1fr; }
           .hv-steps { display: none; }
-          .hv-nav-links { display: none; }
         }
 
         @media (prefers-reduced-motion: reduce) {
           .hv-float, .hv-chart-bar { animation: none; }
           .hv-cycle { animation: none; }
-          .hv-scene:first-child, .hv-toast:first-child, .hv-url-text:first-child {
+          .hv-shot:first-child, .hv-toast:first-child, .hv-url-text:first-child {
             opacity: 1;
+            visibility: visible;
           }
         }
       `}</style>
