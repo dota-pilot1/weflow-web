@@ -11,6 +11,7 @@ const STATIC_ROUTES: { path: string; priority: number }[] = [
   { path: "/cases", priority: 0.9 },
   { path: "/reservation", priority: 0.7 },
   { path: "/diagnosis", priority: 0.8 },
+  { path: "/lookup", priority: 0.5 },
 ];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {

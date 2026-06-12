@@ -1,4 +1,6 @@
 import { supabaseAdmin } from "@/lib/supabase/server";
+import { generateLookupCode } from "@/lib/lookup-code";
+import { sendLookupSms } from "@/lib/sms";
 
 const VALID_SOURCE = new Set(["diagnosis", "inquiry", "landing"]);
 
@@ -45,6 +47,8 @@ export async function POST(req: Request) {
     );
   }
 
+  const lookupCode = generateLookupCode();
+
   const { data, error } = await supabaseAdmin
     .from("inquiries")
     .insert({
@@ -55,6 +59,7 @@ export async function POST(req: Request) {
       message,
       source,
       agree_terms: agreeTerms,
+      lookup_code: lookupCode,
     })
     .select("id")
     .single();
@@ -66,5 +71,8 @@ export async function POST(req: Request) {
     );
   }
 
-  return Response.json({ ok: true, id: data.id });
+  // 조회코드 안내 SMS — 실패해도 접수는 성공 처리 (best-effort)
+  await sendLookupSms(phone, lookupCode);
+
+  return Response.json({ ok: true, id: data.id, lookupCode });
 }

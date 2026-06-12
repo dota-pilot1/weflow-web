@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useMemo, useState } from "react";
 
 type ProjectType =
@@ -68,7 +69,9 @@ export default function ReservationForm({
 
   const [submitting, setSubmitting] = useState(false);
   const [result, setResult] = useState<
-    { ok: true; id: string } | { ok: false; error: string } | null
+    | { ok: true; id: string; lookupCode?: string }
+    | { ok: false; error: string }
+    | null
   >(null);
 
   // ─── 캘린더 ───────────────────────────────────────
@@ -146,7 +149,7 @@ export default function ReservationForm({
       if (!res.ok || !json.ok) {
         setResult({ ok: false, error: json.error || "제출에 실패했습니다." });
       } else {
-        setResult({ ok: true, id: json.id });
+        setResult({ ok: true, id: json.id, lookupCode: json.lookupCode });
         // 폼 초기화 (선택값은 유지)
         setName("");
         setPhone("");
@@ -415,9 +418,31 @@ export default function ReservationForm({
           </button>
 
           {result?.ok === true && (
-            <p className="mt-4 rounded-lg bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
-              ✓ 예약이 접수되었습니다. 평균 24시간 내에 연락드릴게요.
-            </p>
+            <div className="mt-4 rounded-lg bg-emerald-50 px-4 py-4 text-sm text-emerald-700">
+              <p className="font-semibold">
+                ✓ 예약이 접수되었습니다. 평균 24시간 내에 연락드릴게요.
+              </p>
+              {result.lookupCode && (
+                <>
+                  <p className="mt-3">
+                    조회 코드{" "}
+                    <span className="ml-1 rounded bg-white px-2 py-1 font-mono text-base font-bold tracking-wider ring-1 ring-emerald-200">
+                      {result.lookupCode}
+                    </span>
+                  </p>
+                  <p className="mt-2 text-xs text-emerald-600">
+                    이 코드와 휴대폰 번호 뒤 4자리로 진행 상황을 조회할 수
+                    있어요. 꼭 캡처해두세요!
+                  </p>
+                  <Link
+                    href={`/lookup?code=${result.lookupCode}`}
+                    className="mt-3 inline-flex items-center gap-1 font-semibold underline underline-offset-4 hover:text-emerald-800"
+                  >
+                    내 신청 조회하러 가기 →
+                  </Link>
+                </>
+              )}
+            </div>
           )}
           {result?.ok === false && (
             <p className="mt-4 rounded-lg bg-rose-50 px-4 py-3 text-sm text-rose-700">
