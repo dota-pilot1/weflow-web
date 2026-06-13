@@ -83,8 +83,8 @@ const items: Item[] = [
 
 export default function FloatingBar() {
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 md:hidden">
-      <div className="bg-white/95 backdrop-blur border-t border-[var(--color-border)] shadow-[0_-4px_20px_-8px_rgba(15,23,42,0.12)]">
+    <div className="fixed inset-x-0 bottom-0 z-40 md:bottom-5 md:px-4">
+      <div className="bg-white/95 backdrop-blur border-t border-[var(--color-border)] shadow-[0_-4px_20px_-8px_rgba(15,23,42,0.12)] md:mx-auto md:max-w-md md:rounded-2xl md:border md:shadow-[0_16px_44px_-16px_rgba(15,23,42,0.3)] md:overflow-hidden">
         <ul className="grid grid-cols-4">
           {items.map((it) => {
             const inner = (
