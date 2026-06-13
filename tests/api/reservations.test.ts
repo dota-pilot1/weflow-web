@@ -1,29 +1,21 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { vi, describe, it, expect, beforeEach } from "vitest";
 import { POST } from "@/app/api/reservations/route";
 import { supabaseAdmin } from "@/lib/supabase/server";
 
-// Mock Supabase admin client
+// Mock Supabase admin client with support for query chaining
 vi.mock("@/lib/supabase/server", () => {
-  const mockSingle = vi.fn().mockResolvedValue({
-    data: { id: "test-reservation-id" },
-    error: null,
-  });
-
-  const mockSelect = vi.fn().mockReturnValue({
-    single: mockSingle,
-  });
-
-  const mockInsert = vi.fn().mockReturnValue({
-    select: mockSelect,
-  });
-
-  const mockFrom = vi.fn().mockReturnValue({
-    insert: mockInsert,
-  });
+  const queryChain = {
+    select: vi.fn().mockReturnThis(),
+    insert: vi.fn().mockReturnThis(),
+    eq: vi.fn().mockReturnThis(),
+    limit: vi.fn().mockImplementation(() => Promise.resolve({ data: [], error: null })),
+    single: vi.fn().mockImplementation(() => Promise.resolve({ data: { id: "test-reservation-id" }, error: null })),
+  };
 
   return {
     supabaseAdmin: {
-      from: mockFrom,
+      from: vi.fn().mockReturnValue(queryChain),
     },
   };
 });
@@ -149,8 +141,8 @@ describe("POST /api/reservations", () => {
 
   it("Supabase DB에러 발생 시 400 에러와 함께 에러 메시지를 반환한다", async () => {
     // Force DB error
-    const mockSingle = vi.mocked(supabaseAdmin.from("reservations").insert({}).select().single);
-    mockSingle.mockResolvedValueOnce({
+    const queryChain = supabaseAdmin.from("reservations") as any;
+    vi.mocked(queryChain.single).mockResolvedValueOnce({
       data: null,
       error: { message: "Database constraint error" } as any,
     });
@@ -177,5 +169,37 @@ describe("POST /api/reservations", () => {
     expect(response.status).toBe(400);
     expect(json.ok).toBe(false);
     expect(json.error).toBe("Database constraint error");
+  });
+
+  it("동일한 날짜와 시간대에 이미 예약이 있으면 400 에러를 반환한다", async () => {
+    // Mock check query to return an existing reservation row
+    const queryChain = supabaseAdmin.from("reservations") as any;
+    vi.mocked(queryChain.limit).mockResolvedValueOnce({
+      data: [{ id: "existing-reservation-id" }],
+      error: null,
+    } as any);
+
+    const payload = {
+      name: "테스터",
+      phone: "010-1234-5678",
+      desiredDate: "2026-06-15",
+      desiredTime: "10:00",
+      projectType: "homepage",
+      industry: "gym",
+      agreeTerms: true,
+    };
+
+    const req = new Request("http://localhost/api/reservations", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+
+    const response = await POST(req);
+    const json = await response.json();
+
+    expect(response.status).toBe(400);
+    expect(json.ok).toBe(false);
+    expect(json.error).toContain("이미 예약 완료된 시간대입니다");
   });
 });

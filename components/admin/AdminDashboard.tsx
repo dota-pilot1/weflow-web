@@ -582,13 +582,22 @@ function RowGroup({
 }) {
   return (
     <>
-      <tr className="border-t border-[var(--color-border)] hover:bg-[var(--color-bg-soft)]/50">
+      <tr
+        className={
+          "border-t border-[var(--color-border)] transition-colors " +
+          (opened
+            ? "bg-[var(--color-brand-50)]"
+            : "hover:bg-[var(--color-bg-soft)]/60")
+        }
+      >
         {children}
       </tr>
       {opened && (
-        <tr className="border-t border-[var(--color-border)] bg-[var(--color-bg-soft)]/60">
-          <td colSpan={6} className="px-4 py-4">
-            {detail}
+        <tr>
+          <td colSpan={6} className="p-0">
+            <div className="border-l-[3px] border-[var(--color-brand-500)] bg-[var(--color-bg-muted)] px-5 py-4 shadow-inner">
+              {detail}
+            </div>
           </td>
         </tr>
       )}
@@ -606,11 +615,18 @@ function Detail({
   className?: string;
 }) {
   return (
-    <div className={className}>
-      <p className="text-xs font-semibold text-[var(--color-fg-mute)]">
+    <div
+      className={
+        "rounded-lg border border-[var(--color-border)] bg-[var(--color-bg)] px-3 py-2.5 " +
+        (className || "")
+      }
+    >
+      <p className="text-[11px] font-semibold uppercase tracking-wide text-[var(--color-fg-mute)]">
         {label}
       </p>
-      <p className="mt-1 text-sm whitespace-pre-wrap">{value}</p>
+      <p className="mt-1 text-sm text-[var(--color-fg)] whitespace-pre-wrap">
+        {value}
+      </p>
     </div>
   );
 }
@@ -647,6 +663,16 @@ function ActionButtons({
     "px-2.5 py-1.5 text-xs font-semibold rounded-md transition disabled:opacity-40 disabled:cursor-not-allowed";
   return (
     <div className="inline-flex items-center gap-1 flex-wrap justify-end">
+      <button
+        type="button"
+        disabled={status === "pending"}
+        onClick={() => onChange("pending")}
+        className={
+          btn + " bg-slate-100 text-slate-600 hover:bg-slate-200"
+        }
+      >
+        대기
+      </button>
       <button
         type="button"
         disabled={status === "in_progress"}

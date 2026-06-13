@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 
 type ProjectType =
   | "랜딩페이지 제작"
@@ -74,6 +74,36 @@ export default function ReservationForm({
     | null
   >(null);
 
+  const [bookedTimes, setBookedTimes] = useState<string[]>([]);
+  const [loadingBooked, setLoadingBooked] = useState(false);
+
+  // ─── 이미 예약된 시간 가져오기 ───────────────────
+  useEffect(() => {
+    const fetchBookedTimes = async () => {
+      if (!selectedDate) {
+        setBookedTimes([]);
+        return;
+      }
+      setLoadingBooked(true);
+      try {
+        const ymd = fmtYMD(selectedDate);
+        const res = await fetch(`/api/reservations/booked?date=${ymd}`);
+        const json = await res.json();
+        if (res.ok && json.ok) {
+          setBookedTimes(json.bookedTimes || []);
+        } else {
+          setBookedTimes([]);
+        }
+      } catch (e) {
+        console.error("Failed to fetch booked times", e);
+        setBookedTimes([]);
+      } finally {
+        setLoadingBooked(false);
+      }
+    };
+    fetchBookedTimes();
+  }, [selectedDate]);
+
   // ─── 캘린더 ───────────────────────────────────────
   const calendarDays = useMemo(() => {
     const year = viewMonth.getFullYear();
@@ -107,6 +137,11 @@ export default function ReservationForm({
   const now = new Date();
   const isSlotDisabled = (slot: string) => {
     if (!selectedDate) return false;
+    
+    // 1. 이미 예약 완료된 시간대인 경우 비활성화
+    if (bookedTimes.includes(slot)) return true;
+
+    // 2. 오늘이고 지난 시간인 경우 비활성화
     if (!isSameDay(selectedDate, today)) return false;
     const [h, m] = slot.split(":").map(Number);
     const slotDate = new Date(today);
@@ -279,11 +314,18 @@ export default function ReservationForm({
       <div className="space-y-6">
         {/* STEP 2 - 시간 선택 */}
         <div className="card p-6">
-          <div className="flex items-center gap-2 text-sm font-semibold text-[var(--color-brand-700)]">
-            <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-[var(--color-brand-50)] text-xs">
-              2
-            </span>
-            시간 선택
+          <div className="flex items-center justify-between text-sm font-semibold text-[var(--color-brand-700)]">
+            <div className="flex items-center gap-2">
+              <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-[var(--color-brand-50)] text-xs">
+                2
+              </span>
+              시간 선택
+            </div>
+            {loadingBooked && (
+              <span className="text-[11px] text-[var(--color-fg-mute)] animate-pulse">
+                가용 시간 조회 중…
+              </span>
+            )}
           </div>
 
           {!selectedDate ? (
@@ -294,7 +336,7 @@ export default function ReservationForm({
             <>
               <div className="mt-5 grid grid-cols-5 gap-2">
                 {TIME_SLOTS.map((t) => {
-                  const disabled = isSlotDisabled(t);
+                  const disabled = isSlotDisabled(t) || loadingBooked;
                   const active = selectedTime === t;
                   return (
                     <button

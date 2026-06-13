@@ -57,7 +57,9 @@ export default function ThemeSwitcher() {
     try {
       const stored = window.localStorage.getItem(STORAGE_KEY);
       if (stored && THEMES.some((t) => t.id === stored)) {
-        setTheme(stored as ThemeId);
+        Promise.resolve().then(() => {
+          setTheme(stored as ThemeId);
+        });
       }
     } catch {
       /* ignore */

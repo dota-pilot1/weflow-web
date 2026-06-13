@@ -59,6 +59,28 @@ export async function POST(req: Request) {
     );
   }
 
+  // 중복 예약 여부 체크
+  const { data: existing, error: checkError } = await supabaseAdmin
+    .from("reservations")
+    .select("id")
+    .eq("desired_date", desiredDate)
+    .eq("desired_time", desiredTime)
+    .limit(1);
+
+  if (checkError) {
+    return Response.json(
+      { ok: false, error: checkError.message },
+      { status: 500 }
+    );
+  }
+
+  if (existing && existing.length > 0) {
+    return Response.json(
+      { ok: false, error: "이미 예약 완료된 시간대입니다. 다른 시간을 선택해주세요." },
+      { status: 400 }
+    );
+  }
+
   const lookupCode = generateLookupCode();
 
   const { data, error } = await supabaseAdmin
